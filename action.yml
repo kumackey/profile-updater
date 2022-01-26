@@ -1,0 +1,9 @@
+name: 'update profile with qiita data'
+description: ''
+author: 'kumackey <kumak1t09e0@gmail.com>'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'activity'
+  color: 'gray-dark'
