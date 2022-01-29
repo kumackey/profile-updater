@@ -18,7 +18,6 @@ linters:
     - durationcheck
     - errorlint
     - exportloopref
-    - forbidigo
     - funlen
     - goconst
     - gocritic
