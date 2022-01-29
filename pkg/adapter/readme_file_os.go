@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"os"
 
-	"github.com/kumackey/qiita-profile/pkg/domain"
+	"github.com/kumackey/profile-updater/pkg/domain"
 )
 
 const filenameReadMe = "README.md"

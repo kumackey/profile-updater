@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/kumackey/qiita-profile/pkg/adapter"
-	"github.com/kumackey/qiita-profile/pkg/usecase"
+	"github.com/kumackey/profile-updater/pkg/adapter"
+	"github.com/kumackey/profile-updater/pkg/usecase"
 )
 
 func main() {

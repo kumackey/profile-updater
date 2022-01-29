@@ -1,3 +1,3 @@
-module github.com/kumackey/qiita-profile
+module github.com/kumackey/profile-updater
 
 go 1.17

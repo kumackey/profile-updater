@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"github.com/kumackey/qiita-profile/pkg/domain"
+	"github.com/kumackey/profile-updater/pkg/domain"
 )
 
 type UpdateProfileUsecase struct {
