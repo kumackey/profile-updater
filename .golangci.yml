@@ -1,0 +1,126 @@
+run:
+  timeout: 10m
+
+output:
+  format: tab
+  sort-results: true
+
+# https://golangci-lint.run/usage/linters/
+linters:
+  disable-all: true
+  enable:
+    - bodyclose
+    - deadcode
+    - depguard
+    - dupl
+    - errcheck
+    - exhaustive
+    - durationcheck
+    - errorlint
+    - exportloopref
+    - forbidigo
+    - funlen
+    - goconst
+    - gocritic
+    - gocyclo
+    - gofmt
+    - gofumpt
+    - gomnd
+    - goprintffuncname
+    - gosec
+    - gosimple
+    - govet
+    - ineffassign
+    - makezero
+    - misspell
+    - nakedret
+    - nestif
+    - nlreturn
+    - noctx
+    - nolintlint
+    - prealloc
+    - rowserrcheck
+    - revive
+    - sqlclosecheck
+    - staticcheck
+    - structcheck
+    - stylecheck
+    - typecheck
+    - unconvert
+    - unparam
+    - unused
+    - varcheck
+    - whitespace
+
+# https://golangci-lint.run/usage/configuration/#config-file
+linters-settings:
+  errorlint:
+    asserts: false
+  depguard:
+    list-type: blacklist
+    packages-with-error-message:
+      - golang.org/x/net/context: "use context"
+      - github.com/pkg/errors: "use fmt.Errorf(\"%w\") https://blog.golang.org/go1.13-errors"
+      - golang.org/x/xerrors: "use fmt.Errorf(\"%w\") https://blog.golang.org/go1.13-errors"
+  funlen:
+    lines: 100
+    statements: 50
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  gocritic:
+    enabled-checks:
+      - ruleguard
+      - appendAssign
+      - argOrder
+      - assignOp
+      - badCall
+      - badCond
+      - captLocal
+      - caseOrder
+      - codegenComment
+      - commentFormatting
+      - defaultCaseOrder
+      - deprecatedComment
+      - dupArg
+      - dupBranchBody
+      - dupCase
+      - dupSubExpr
+      - elseif
+      - exitAfterDefer
+      - flagDeref
+      - flagName
+      - ifElseChain
+      - mapKey
+      - newDeref
+      - offBy1
+      - regexpMust
+      - singleCaseSwitch
+      - sloppyLen
+      - stringXbytes
+      - switchTrue
+      - typeSwitchVar
+      - underef
+      - unlambda
+      - unslice
+      - valSwap
+      - wrapperFunc
+  gocyclo:
+    min-complexity: 30
+  misspell:
+    locale: US
+    ignore-words:
+      - hogehoge
+  nakedret:
+    max-func-lines: 30
+  nestif:
+    min-complexity: 5
+  staticcheck:
+    go: "1.17"
+  stylecheck:
+    go: "1.17"
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude-use-default: true

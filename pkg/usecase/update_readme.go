@@ -5,9 +5,11 @@ import (
 	"os"
 )
 
-const filenameReadMe = "README.md"
-const beginLine = "<!-- begin line of qiita profile -->"
-const endLine = "<!-- end line of qiita profile -->"
+const (
+	filenameReadMe = "README.md"
+	beginLine      = "<!-- begin line of qiita profile -->"
+	endLine        = "<!-- end line of qiita profile -->"
+)
 
 type UpdateReadMe struct{}
 
@@ -58,6 +60,7 @@ func replaceLines(lines []line) []line {
 			replacedLines = append(replacedLines, "replaced line")
 			replacedLines = append(replacedLines, line)
 			writeMode = false
+
 			continue
 		}
 
