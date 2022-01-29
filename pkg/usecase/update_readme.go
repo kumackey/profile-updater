@@ -57,8 +57,7 @@ func replaceLines(lines []line) []line {
 	writeMode := false
 	for _, line := range lines {
 		if line == endLine {
-			replacedLines = append(replacedLines, "replaced line")
-			replacedLines = append(replacedLines, line)
+			replacedLines = append(replacedLines, "replaced line", line)
 			writeMode = false
 
 			continue

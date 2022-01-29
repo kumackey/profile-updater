@@ -12,35 +12,28 @@ linters:
     - bodyclose
     - deadcode
     - depguard
+    - dogsled
     - dupl
     - errcheck
-    - exhaustive
-    - durationcheck
-    - errorlint
     - exportloopref
     - funlen
+    - gochecknoinits
     - goconst
     - gocritic
     - gocyclo
     - gofmt
-    - gofumpt
+    - goimports
     - gomnd
     - goprintffuncname
     - gosec
     - gosimple
     - govet
     - ineffassign
-    - makezero
+    - lll
     - misspell
     - nakedret
-    - nestif
-    - nlreturn
     - noctx
     - nolintlint
-    - prealloc
-    - rowserrcheck
-    - revive
-    - sqlclosecheck
     - staticcheck
     - structcheck
     - stylecheck
@@ -55,12 +48,6 @@ linters:
 linters-settings:
   errorlint:
     asserts: false
-  depguard:
-    list-type: blacklist
-    packages-with-error-message:
-      - golang.org/x/net/context: "use context"
-      - github.com/pkg/errors: "use fmt.Errorf(\"%w\") https://blog.golang.org/go1.13-errors"
-      - golang.org/x/xerrors: "use fmt.Errorf(\"%w\") https://blog.golang.org/go1.13-errors"
   funlen:
     lines: 100
     statements: 50
@@ -68,48 +55,16 @@ linters-settings:
     min-len: 3
     min-occurrences: 3
   gocritic:
-    enabled-checks:
-      - ruleguard
-      - appendAssign
-      - argOrder
-      - assignOp
-      - badCall
-      - badCond
-      - captLocal
-      - caseOrder
-      - codegenComment
-      - commentFormatting
-      - defaultCaseOrder
-      - deprecatedComment
-      - dupArg
-      - dupBranchBody
-      - dupCase
-      - dupSubExpr
-      - elseif
-      - exitAfterDefer
-      - flagDeref
-      - flagName
-      - ifElseChain
-      - mapKey
-      - newDeref
-      - offBy1
-      - regexpMust
-      - singleCaseSwitch
-      - sloppyLen
-      - stringXbytes
-      - switchTrue
-      - typeSwitchVar
-      - underef
-      - unlambda
-      - unslice
-      - valSwap
-      - wrapperFunc
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
   gocyclo:
-    min-complexity: 30
+    min-complexity: 15
   misspell:
     locale: US
-    ignore-words:
-      - hogehoge
   nakedret:
     max-func-lines: 30
   nestif:
