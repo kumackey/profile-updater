@@ -2,7 +2,7 @@ package domain
 
 type Line string
 
-type Readme struct {
+type Profile struct {
 	Content []Line
 }
 
@@ -11,10 +11,10 @@ const (
 	endLine   = "<!-- end line of qiita profile -->"
 )
 
-func (r *Readme) Replace(lines []Line) *Readme {
-	replacedLines := make([]Line, 0, len(r.Content))
+func (p *Profile) Replace(lines []Line) *Profile {
+	replacedLines := make([]Line, 0, len(p.Content))
 	writeMode := false
-	for _, line := range r.Content {
+	for _, line := range p.Content {
 		if line == endLine {
 			replacedLines = append(replacedLines, lines...)
 			replacedLines = append(replacedLines, line)
@@ -34,5 +34,5 @@ func (r *Readme) Replace(lines []Line) *Readme {
 		}
 	}
 
-	return &Readme{Content: replacedLines}
+	return &Profile{Content: replacedLines}
 }

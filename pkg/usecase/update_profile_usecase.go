@@ -4,18 +4,18 @@ import (
 	"github.com/kumackey/qiita-profile/pkg/domain"
 )
 
-type UpdateReadmeUsecase struct {
-	ReadmeFile ReadmeFile
+type UpdateProfileUsecase struct {
+	ProfileIO ProfileIO
 }
 
-func (u UpdateReadmeUsecase) Exec() error {
-	readme, err := u.ReadmeFile.Scan()
+func (u UpdateProfileUsecase) Exec() error {
+	readme, err := u.ProfileIO.Scan()
 	if err != nil {
 		return err
 	}
 
 	readme = readme.Replace([]domain.Line{"書き換えました"})
-	err = u.ReadmeFile.Write(readme)
+	err = u.ProfileIO.Write(readme)
 	if err != nil {
 		return err
 	}

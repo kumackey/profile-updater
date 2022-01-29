@@ -2,15 +2,16 @@ package adapter
 
 import (
 	"bufio"
-	"github.com/kumackey/qiita-profile/pkg/domain"
 	"os"
+
+	"github.com/kumackey/qiita-profile/pkg/domain"
 )
 
 const filenameReadMe = "README.md"
 
 type ReadmeFileOS struct{}
 
-func (s ReadmeFileOS) Scan() (*domain.Readme, error) {
+func (s ReadmeFileOS) Scan() (*domain.Profile, error) {
 	f, err := os.Open(filenameReadMe)
 	if err != nil {
 		return nil, err
@@ -26,12 +27,12 @@ func (s ReadmeFileOS) Scan() (*domain.Readme, error) {
 		return nil, err
 	}
 
-	return &domain.Readme{
+	return &domain.Profile{
 		Content: lines,
 	}, nil
 }
 
-func (s ReadmeFileOS) Write(readme *domain.Readme) error {
+func (s ReadmeFileOS) Write(readme *domain.Profile) error {
 	f, err := os.Create(filenameReadMe)
 	if err != nil {
 		return err

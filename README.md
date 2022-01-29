@@ -1,5 +1,5 @@
 # qiita-profile
 
-<!-- begin line of qiita profile -->
+<!-- begin line of profile updater -->
 書き換えました
-<!-- end line of qiita profile -->
+<!-- end line of profile updater -->
