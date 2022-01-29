@@ -5,7 +5,7 @@ on:
       - main
   pull_request:
 jobs:
-  golangci-lint
+  golangci-lint:
     name: golangci-lint
     strategy:
       matrix:
