@@ -3,6 +3,8 @@ package usecase
 import (
 	"bufio"
 	"os"
+
+	"github.com/kumackey/qiita-profile/pkg/domain"
 )
 
 const (
@@ -11,13 +13,14 @@ const (
 	endLine        = "<!-- end line of qiita profile -->"
 )
 
-type UpdateReadMe struct{}
-
-func NewUpdateReadMe() *UpdateReadMe {
-	return &UpdateReadMe{}
+type UpdateReadme struct {
 }
 
-func (u *UpdateReadMe) Exec() error {
+func NewUpdateReadMe() *UpdateReadme {
+	return &UpdateReadme{}
+}
+
+func (u *UpdateReadme) Exec() error {
 	f, err := os.Open(filenameReadMe)
 	if err != nil {
 		return err
@@ -25,9 +28,9 @@ func (u *UpdateReadMe) Exec() error {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
-	var lines []line
+	var lines []domain.Line
 	for scanner.Scan() {
-		lines = append(lines, line(scanner.Text()))
+		lines = append(lines, domain.Line(scanner.Text()))
 	}
 	if err := scanner.Err(); err != nil {
 		return err
@@ -39,8 +42,12 @@ func (u *UpdateReadMe) Exec() error {
 	}
 	defer f.Close()
 
-	lines = replaceLines(lines)
-	for _, line := range lines {
+	readme := &domain.Readme{
+		Content: lines,
+	}
+
+	readme = replaceLines(readme)
+	for _, line := range readme.Content {
 		_, err := f.WriteString(string(line) + "\n")
 		if err != nil {
 			return err
@@ -50,12 +57,10 @@ func (u *UpdateReadMe) Exec() error {
 	return nil
 }
 
-type line string
-
-func replaceLines(lines []line) []line {
-	replacedLines := make([]line, 0, len(lines))
+func replaceLines(readme *domain.Readme) *domain.Readme {
+	replacedLines := make([]domain.Line, 0, len(readme.Content))
 	writeMode := false
-	for _, line := range lines {
+	for _, line := range readme.Content {
 		if line == endLine {
 			replacedLines = append(replacedLines, "replaced line", line)
 			writeMode = false
@@ -74,5 +79,5 @@ func replaceLines(lines []line) []line {
 		}
 	}
 
-	return replacedLines
+	return &domain.Readme{Content: replacedLines}
 }
