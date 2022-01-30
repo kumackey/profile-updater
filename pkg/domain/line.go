@@ -1,8 +1,8 @@
 package domain
 
 type line struct {
-	value      string
-	isReplaced bool
+	value         string
+	shouldReplace bool
 }
 
 func (l line) String() string {

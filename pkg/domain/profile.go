@@ -20,7 +20,7 @@ func (p *Profile) Replace(values []string) (*Profile, error) {
 	isReplaced := false
 
 	for _, contentLine := range p.Content {
-		if contentLine.isReplaced {
+		if contentLine.shouldReplace {
 			lines := make([]line, 0, len(values))
 			for _, value := range values {
 				lines = append(lines, line{value, false})
