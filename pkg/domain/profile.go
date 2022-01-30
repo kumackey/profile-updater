@@ -7,11 +7,12 @@ type Profile struct {
 }
 
 const (
-	beginLine = "<!-- begin line of qiita profile -->"
-	endLine   = "<!-- end line of qiita profile -->"
+	beginLine = "<!-- begin line of profile updater -->"
+	endLine   = "<!-- end line of profile updater -->"
 )
 
 func (p *Profile) Replace(lines []Line) *Profile {
+	// TODO: 同じ行数しか確保できてない
 	replacedLines := make([]Line, 0, len(p.Content))
 	writeMode := false
 	for _, line := range p.Content {
