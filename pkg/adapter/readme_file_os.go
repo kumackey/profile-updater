@@ -16,7 +16,7 @@ func (s ReadmeFileOS) Scan() (*domain.Profile, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	scanner := bufio.NewScanner(f)
 	var lines []string
@@ -35,7 +35,7 @@ func (s ReadmeFileOS) Write(readme *domain.Profile) error {
 	if err != nil {
 		return err
 	}
-	defer f.Close()
+	defer func() { _ = f.Close() }()
 
 	for _, line := range readme.Content {
 		_, err := f.WriteString(line.String() + "\n")
