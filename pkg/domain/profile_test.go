@@ -7,37 +7,36 @@ import (
 )
 
 func TestProfile_Replace(t *testing.T) {
-	inputProfile := &Profile{
-		Content: []line{
-			"こんにちは",
-			beginLine,
-			"置き換えられるライン",
-			endLine,
-		},
-	}
-
-	outputProfile := &Profile{
-		Content: []line{
-			"こんにちは",
-			beginLine,
-			"書き換えました",
-			endLine,
-		},
-	}
-
 	tests := map[string]struct {
-		input  *Profile
-		output *Profile
+		input    *Profile
+		replaces []string
+		output   *Profile
 	}{
 		"beginとendの両方がある": {
-			input:  inputProfile,
-			output: outputProfile,
+			input: &Profile{
+				Content: []line{
+					"こんにちは",
+					beginLine,
+					"置き換えられるライン",
+					endLine,
+				}},
+			replaces: []string{
+				"書き換えました",
+			},
+			output: &Profile{
+				Content: []line{
+					"こんにちは",
+					beginLine,
+					"書き換えました",
+					endLine,
+				},
+			},
 		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			assert.Equal(t, *test.output, *test.input.Replace([]string{"書き換えました"}))
+			assert.Equal(t, *test.output, *test.input.Replace(test.replaces))
 		})
 	}
 }
