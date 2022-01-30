@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestProfile_Replace_Failed(t *testing.T) {
+func TestZennRSS_FetchArticles(t *testing.T) {
 	tests := map[string]struct {
 		userID       string
 		articleCount int
@@ -19,7 +19,7 @@ func TestProfile_Replace_Failed(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			zenn := ZennFeed{}
+			zenn := ZennRSS{}
 			articles, err := zenn.FetchArticles(context.Background(), test.userID)
 			assert.Nil(t, err)
 			assert.GreaterOrEqual(t, len(articles), test.articleCount)

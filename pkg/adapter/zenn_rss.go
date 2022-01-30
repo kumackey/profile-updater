@@ -9,9 +9,9 @@ import (
 	"github.com/kumackey/profile-updater/pkg/domain"
 )
 
-type ZennFeed struct{}
+type ZennRSS struct{}
 
-func (c ZennFeed) FetchArticles(ctx context.Context, userID string) ([]*domain.ZennArticle, error) {
+func (c ZennRSS) FetchArticles(ctx context.Context, userID string) ([]*domain.ZennArticle, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://zenn.dev/"+userID+"/feed", http.NoBody)
 	if err != nil {
 		return nil, err
