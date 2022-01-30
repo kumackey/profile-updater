@@ -14,7 +14,11 @@ func (u UpdateProfileUsecase) Exec() error {
 		return err
 	}
 
-	readme = readme.Replace([]string{"書き換えました"})
+	readme, err = readme.Replace([]string{"書き換えました"})
+	if err != nil {
+		return err
+	}
+
 	err = u.ProfileIO.Write(readme)
 	if err != nil {
 		return err

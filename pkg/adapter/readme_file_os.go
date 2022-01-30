@@ -38,7 +38,7 @@ func (s ReadmeFileOS) Write(readme *domain.Profile) error {
 	defer f.Close()
 
 	for _, line := range readme.Content {
-		_, err := f.WriteString(string(line) + "\n")
+		_, err := f.WriteString(line.String() + "\n")
 		if err != nil {
 			return err
 		}
