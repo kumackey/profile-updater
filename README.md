@@ -1,4 +1,4 @@
-# qiita-profile
+# profile updater
 
 <!-- begin line of profile updater -->
 書き換えました

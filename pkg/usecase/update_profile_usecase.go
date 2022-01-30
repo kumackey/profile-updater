@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"github.com/kumackey/profile-updater/pkg/domain"
 )
 
@@ -19,6 +20,8 @@ func (u UpdateProfileUsecase) Exec() error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Println(*readme)
 
 	return nil
 }
