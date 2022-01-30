@@ -19,17 +19,15 @@ func (s ReadmeFileOS) Scan() (*domain.Profile, error) {
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
-	var lines []domain.Line
+	var lines []string
 	for scanner.Scan() {
-		lines = append(lines, domain.Line(scanner.Text()))
+		lines = append(lines, scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
 		return nil, err
 	}
 
-	return &domain.Profile{
-		Content: lines,
-	}, nil
+	return domain.NewProfile(lines), nil
 }
 
 func (s ReadmeFileOS) Write(readme *domain.Profile) error {

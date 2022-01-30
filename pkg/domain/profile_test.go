@@ -8,7 +8,7 @@ import (
 
 func TestProfile_Replace(t *testing.T) {
 	inputProfile := &Profile{
-		Content: []Line{
+		Content: []line{
 			"こんにちは",
 			beginLine,
 			"置き換えられるライン",
@@ -17,7 +17,7 @@ func TestProfile_Replace(t *testing.T) {
 	}
 
 	outputProfile := &Profile{
-		Content: []Line{
+		Content: []line{
 			"こんにちは",
 			beginLine,
 			"書き換えました",
@@ -37,7 +37,7 @@ func TestProfile_Replace(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			assert.Equal(t, *test.output, *test.input.Replace([]Line{"書き換えました"}))
+			assert.Equal(t, *test.output, *test.input.Replace([]string{"書き換えました"}))
 		})
 	}
 }

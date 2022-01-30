@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"fmt"
-	"github.com/kumackey/profile-updater/pkg/domain"
 )
 
 type UpdateProfileUsecase struct {
@@ -15,7 +14,7 @@ func (u UpdateProfileUsecase) Exec() error {
 		return err
 	}
 
-	readme = readme.Replace([]domain.Line{"書き換えました"})
+	readme = readme.Replace([]string{"書き換えました"})
 	err = u.ProfileIO.Write(readme)
 	if err != nil {
 		return err

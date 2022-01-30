@@ -1,9 +1,9 @@
 package domain
 
-type Line string
+type line string
 
 type Profile struct {
-	Content []Line
+	Content []line
 }
 
 const (
@@ -11,14 +11,19 @@ const (
 	endLine   = "<!-- end line of profile updater -->"
 )
 
-func (p *Profile) Replace(lines []Line) *Profile {
+func (p *Profile) Replace(values []string) *Profile {
 	// TODO: 同じ行数しか確保できてない
-	replacedLines := make([]Line, 0, len(p.Content))
+	replacedLines := make([]line, 0, len(p.Content))
 	writeMode := false
-	for _, line := range p.Content {
-		if line == endLine {
+	for _, contentLine := range p.Content {
+		if contentLine == endLine {
+			lines := make([]line, 0, len(values))
+			for _, value := range values {
+				lines = append(lines, line(value))
+			}
+
 			replacedLines = append(replacedLines, lines...)
-			replacedLines = append(replacedLines, line)
+			replacedLines = append(replacedLines, contentLine)
 			writeMode = false
 
 			continue
@@ -28,12 +33,21 @@ func (p *Profile) Replace(lines []Line) *Profile {
 			continue
 		}
 
-		replacedLines = append(replacedLines, line)
+		replacedLines = append(replacedLines, contentLine)
 
-		if line == beginLine {
+		if contentLine == beginLine {
 			writeMode = true
 		}
 	}
 
 	return &Profile{Content: replacedLines}
+}
+
+func NewProfile(values []string) *Profile {
+	lines := make([]line, 0, len(values))
+	for _, value := range values {
+		lines = append(lines, line(value))
+	}
+
+	return &Profile{lines}
 }
