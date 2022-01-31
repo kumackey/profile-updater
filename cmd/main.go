@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -9,8 +10,8 @@ import (
 )
 
 func main() {
-	u := usecase.UpdateProfileUsecase{ProfileIO: adapter.ReadmeFileOS{}, ZennClient: adapter.ZennRSS{}}
-	err := u.Exec()
+	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSS{})
+	err := u.Exec(context.Background())
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

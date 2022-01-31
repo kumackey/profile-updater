@@ -6,18 +6,17 @@ import (
 )
 
 type UpdateProfileUsecase struct {
-	ProfileIO  ProfileIO
-	ZennClient ZennClient
+	profileIO  ProfileIO
+	zennClient ZennClient
 }
 
-func (u UpdateProfileUsecase) Exec() error {
-	readme, err := u.ProfileIO.Scan()
+func (u UpdateProfileUsecase) Exec(ctx context.Context) error {
+	readme, err := u.profileIO.Scan()
 	if err != nil {
 		return err
 	}
 
-	ctx := context.Background()
-	articles, err := u.ZennClient.FetchArticles(ctx, "kumackey")
+	articles, err := u.zennClient.FetchArticles(ctx, "kumackey")
 	if err != nil {
 		return err
 	}
@@ -27,7 +26,7 @@ func (u UpdateProfileUsecase) Exec() error {
 		return err
 	}
 
-	err = u.ProfileIO.Write(readme)
+	err = u.profileIO.Write(readme)
 	if err != nil {
 		return err
 	}
@@ -35,4 +34,11 @@ func (u UpdateProfileUsecase) Exec() error {
 	fmt.Println(*readme)
 
 	return nil
+}
+
+func NewUpdateProfileUsecase(profileIO ProfileIO, zennClient ZennClient) UpdateProfileUsecase {
+	return UpdateProfileUsecase{
+		profileIO:  profileIO,
+		zennClient: zennClient,
+	}
 }
