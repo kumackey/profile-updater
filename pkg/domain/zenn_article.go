@@ -16,6 +16,10 @@ type EnClosure struct {
 	URL string
 }
 
+func (z *ZennArticle) ToMarkdown() string {
+	return "[" + z.Title + "](" + z.Link + ")"
+}
+
 type ZennArticles []*ZennArticle
 
 func (z ZennArticles) SortByPublishedAt() ZennArticles {
