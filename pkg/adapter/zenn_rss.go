@@ -3,7 +3,7 @@ package adapter
 import "encoding/xml"
 
 // https://zenn.dev/link/comments/731a3eba374a8e
-type zennRSS struct {
+type zennUserFeed struct {
 	XMLName xml.Name   `xml:"rss"`
 	Items   []zennItem `xml:"channel>item"`
 }

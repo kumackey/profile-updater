@@ -37,7 +37,7 @@ func (r ZennRSSClient) FetchArticles(ctx context.Context, userID string) (domain
 		return nil, usecase.ErrZennUnknownError
 	}
 
-	var rss zennRSS
+	var rss zennUserFeed
 	dec := xml.NewDecoder(resp.Body)
 	err = dec.Decode(&rss)
 	if err != nil {
