@@ -7,23 +7,30 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZennArticle_ToMarkdown(t *testing.T) {
+func TestZennArticle_ToProfileMarkdown(t *testing.T) {
 	tests := map[string]struct {
-		input  *ZennArticle
+		input  ZennArticles
 		output string
 	}{
 		"マークダウンに変換できること": {
-			input: &ZennArticle{
-				Title: "タイトル",
-				Link:  "https://example.com",
+			input: ZennArticles{
+				&ZennArticle{
+					Title: "記事の例1",
+					Link:  "https://example.com/1",
+				},
+				&ZennArticle{
+					Title: "記事の例2",
+					Link:  "https://example.com/2",
+				},
 			},
-			output: "[タイトル](https://example.com)",
+
+			output: "\n[記事の例1](https://example.com/1)\n[記事の例2](https://example.com/2)\n",
 		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			markdown := test.input.ToMarkdown()
+			markdown := test.input.ToProfileMarkdown()
 			assert.Equal(t, test.output, markdown)
 		})
 	}

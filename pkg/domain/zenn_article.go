@@ -16,7 +16,7 @@ type EnClosure struct {
 	URL string
 }
 
-func (z *ZennArticle) ToMarkdown() string {
+func (z *ZennArticle) toMarkdown() string {
 	return "[" + z.Title + "](" + z.Link + ")"
 }
 
@@ -29,4 +29,13 @@ func (z ZennArticles) SortByPublishedAt() ZennArticles {
 	})
 
 	return z
+}
+
+func (z ZennArticles) ToProfileMarkdown() string {
+	profileMarkdown := "\n"
+	for _, article := range z {
+		profileMarkdown = profileMarkdown + article.toMarkdown() + "\n"
+	}
+
+	return profileMarkdown
 }
