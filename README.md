@@ -19,16 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: profile-updater
-        uses: kumackey/profile-updater@main
+      - uses: kumackey/profile-updater@main
         with:
           zenn_user_id: kumackey
-      - name: Push to repository
+      - name: Commit and push
         run: |
-          git config --local user.email "action@github.com"
           git config --local user.name "GitHub Actions"
+          git config --local user.email "action@github.com"
           git add .
-          git commit -m "auto update"
+          git commit -m "profile updated"
           git push origin main
 ```
 
@@ -39,6 +38,6 @@ jobs:
 <!-- profile updater end: zenn -->
 ```
 
-該当アクションを手動実行することで、リストを取得し更新します。
+該当アクションを手動実行することで、リストを取得し更新できます。
 
 ![](./res/readme_result.png)
