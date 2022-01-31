@@ -1,5 +1,5 @@
 # profile updater
 
-<!-- begin line of profile updater -->
+<!-- profile updater begin: zenn -->
 書き換えました
-<!-- end line of profile updater -->
+<!-- profile updater end: zenn -->
