@@ -17,7 +17,7 @@ type EnClosure struct {
 }
 
 func (z *ZennArticle) toMarkdown() string {
-	return "[" + z.Title + "](" + z.Link + ")"
+	return "- [" + z.Title + "](" + z.Link + ")"
 }
 
 type ZennArticles []*ZennArticle

@@ -24,7 +24,7 @@ func TestZennArticle_ToProfileMarkdown(t *testing.T) {
 				},
 			},
 
-			output: "\n[記事の例1](https://example.com/1)\n[記事の例2](https://example.com/2)\n",
+			output: "\n- [記事の例1](https://example.com/1)\n- [記事の例2](https://example.com/2)\n",
 		},
 	}
 
