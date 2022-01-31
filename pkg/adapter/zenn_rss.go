@@ -3,11 +3,11 @@ package adapter
 import (
 	"context"
 	"encoding/xml"
-	"github.com/kumackey/profile-updater/pkg/usecase"
 	"net/http"
 	"time"
 
 	"github.com/kumackey/profile-updater/pkg/domain"
+	"github.com/kumackey/profile-updater/pkg/usecase"
 )
 
 type ZennRSS struct{}

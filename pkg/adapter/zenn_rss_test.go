@@ -2,11 +2,11 @@ package adapter
 
 import (
 	"context"
-	"github.com/kumackey/profile-updater/pkg/usecase"
 	"math/rand"
 	"strconv"
 	"testing"
 
+	"github.com/kumackey/profile-updater/pkg/usecase"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -31,6 +31,7 @@ func TestZennRSS_FetchArticles(t *testing.T) {
 }
 
 func TestZennRSS_FetchArticles_Failed(t *testing.T) {
+	//nolint:gosec // ランダム文字列を作りたいだけなので無視
 	random := strconv.Itoa(rand.Intn(100000))
 
 	tests := map[string]struct {
