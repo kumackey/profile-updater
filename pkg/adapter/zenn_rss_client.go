@@ -13,6 +13,7 @@ import (
 type ZennRSSClient struct{}
 
 func (r ZennRSSClient) FetchArticles(ctx context.Context, userID string) (domain.ZennArticles, error) {
+	// https://zenn.dev/zenn/articles/zenn-feed-rss
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://zenn.dev/"+userID+"/feed", http.NoBody)
 	if err != nil {
 		return nil, err
