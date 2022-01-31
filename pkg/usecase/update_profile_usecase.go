@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"context"
-	"fmt"
 )
 
 type UpdateProfileUsecase struct {
@@ -10,13 +9,13 @@ type UpdateProfileUsecase struct {
 	zennClient ZennClient
 }
 
-func (u UpdateProfileUsecase) Exec(ctx context.Context) error {
+func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string) error {
 	readme, err := u.profileIO.Scan()
 	if err != nil {
 		return err
 	}
 
-	articles, err := u.zennClient.FetchArticles(ctx, "kumackey")
+	articles, err := u.zennClient.FetchArticles(ctx, zennUserID)
 	if err != nil {
 		return err
 	}
@@ -30,8 +29,6 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-
-	fmt.Println(*readme)
 
 	return nil
 }

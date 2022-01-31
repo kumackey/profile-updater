@@ -1,9 +1,13 @@
-name: 'update profile with qiita data'
-description: ''
+name: 'Profile Updater'
+description: 'This action updates your readme with Zenn, Qiita, etc.'
 author: 'kumackey <kumak1t09e0@gmail.com>'
+inputs:
+  zenn_user_id:
+    description: 'Zenn user id'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
 branding:
-  icon: 'activity'
+  icon: 'list'
   color: 'gray-dark'
