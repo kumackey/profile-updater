@@ -11,7 +11,7 @@ import (
 
 type ZennRSS struct{}
 
-func (c ZennRSS) FetchArticles(ctx context.Context, userID string) ([]*domain.ZennArticle, error) {
+func (c ZennRSS) FetchArticles(ctx context.Context, userID string) (domain.ZennArticles, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://zenn.dev/"+userID+"/feed", http.NoBody)
 	if err != nil {
 		return nil, err
@@ -32,7 +32,7 @@ func (c ZennRSS) FetchArticles(ctx context.Context, userID string) ([]*domain.Ze
 	}
 
 	// https://go-critic.com/overview#rangevalcopy
-	var articles []*domain.ZennArticle
+	var articles domain.ZennArticles
 	for i := range rss.Items {
 		publishedAt, err := time.Parse(time.RFC1123, rss.Items[i].PubDate)
 		if err != nil {
