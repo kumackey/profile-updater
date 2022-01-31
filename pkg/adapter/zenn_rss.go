@@ -47,45 +47,55 @@ func (r ZennRSS) FetchArticles(ctx context.Context, userID string) (domain.ZennA
 	// https://go-critic.com/overview#rangevalcopy
 	var articles domain.ZennArticles
 	for i := range rss.Items {
-		publishedAt, err := time.Parse(time.RFC1123, rss.Items[i].PubDate)
+		article, err := r.convertItemToArticle(rss.Items[i])
 		if err != nil {
 			return nil, err
 		}
-		article := domain.ZennArticle{
-			Title:       rss.Items[i].Title,
-			Link:        rss.Items[i].Link,
-			EnClosure:   domain.EnClosure{URL: rss.Items[i].Enclosure.URL},
-			PublishedAt: publishedAt,
-		}
 
-		articles = append(articles, &article)
+		articles = append(articles, article)
 	}
 
 	return articles, nil
 }
 
+func (r ZennRSS) convertItemToArticle(item item) (*domain.ZennArticle, error) {
+	publishedAt, err := time.Parse(time.RFC1123, item.PubDate)
+	if err != nil {
+		return nil, err
+	}
+
+	return &domain.ZennArticle{
+		Title:       item.Title,
+		Link:        item.Link,
+		EnClosure:   domain.EnClosure{URL: item.Enclosure.URL},
+		PublishedAt: publishedAt,
+	}, nil
+}
+
 // https://zenn.dev/link/comments/731a3eba374a8e
 type rssXML struct {
 	XMLName xml.Name `xml:"rss"`
-	Items   []struct {
-		Title       string `xml:"title"`
-		Description struct {
-			XMLName xml.Name `xml:"description"`
-			Value   string   `xml:",cdata"`
-		}
-		Link string `xml:"link"`
-		GuID struct {
-			XMLName     xml.Name `xml:"guid"`
-			IsPermaLink bool     `xml:"isPermaLink,attr"`
-			Value       string   `xml:",chardata"`
-		}
-		PubDate   string `xml:"pubDate"`
-		Enclosure struct {
-			XMLName string `xml:"enclosure"`
-			URL     string `xml:"url,attr"`
-			Length  int    `xml:"length,attr"`
-			Type    string `xml:"type,attr"`
-		}
-		Creator string `xml:"creator"`
-	} `xml:"channel>item"`
+	Items   []item   `xml:"channel>item"`
+}
+
+type item struct {
+	Title       string `xml:"title"`
+	Description struct {
+		XMLName xml.Name `xml:"description"`
+		Value   string   `xml:",cdata"`
+	}
+	Link string `xml:"link"`
+	GuID struct {
+		XMLName     xml.Name `xml:"guid"`
+		IsPermaLink bool     `xml:"isPermaLink,attr"`
+		Value       string   `xml:",chardata"`
+	}
+	PubDate   string `xml:"pubDate"`
+	Enclosure struct {
+		XMLName string `xml:"enclosure"`
+		URL     string `xml:"url,attr"`
+		Length  int    `xml:"length,attr"`
+		Type    string `xml:"type,attr"`
+	}
+	Creator string `xml:"creator"`
 }

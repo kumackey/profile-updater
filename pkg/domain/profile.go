@@ -24,6 +24,7 @@ var (
 
 func (p *Profile) Replace(value string) (*Profile, error) {
 	// 正規表現における改行コード対策
+	// https://qiita.com/spiegel-im-spiegel/items/f1cc014ecb233afaa8af
 	newLineReplaced := strings.NewReplacer(
 		"\r\n", newLineCode,
 		"\r", newLineCode,
