@@ -3,6 +3,7 @@ package adapter
 import (
 	"context"
 	"encoding/xml"
+	"github.com/kumackey/profile-updater/pkg/usecase"
 	"net/http"
 	"time"
 
@@ -23,6 +24,18 @@ func (r ZennRSS) FetchArticles(ctx context.Context, userID string) (domain.ZennA
 		return nil, err
 	}
 	defer func() { _ = resp.Body.Close() }()
+
+	if resp.StatusCode != http.StatusOK {
+		if http.StatusInternalServerError < resp.StatusCode {
+			return nil, usecase.ErrZennInternalServerError
+		}
+
+		if resp.StatusCode == http.StatusNotFound {
+			return nil, usecase.ErrZennAuthorNotFound
+		}
+
+		return nil, usecase.ErrZennUnknownError
+	}
 
 	var rss rssXML
 	dec := xml.NewDecoder(resp.Body)
