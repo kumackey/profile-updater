@@ -12,6 +12,11 @@ import (
 func main() {
 	zennUserID := os.Getenv("INPUT_ZENN_USER_ID")
 
+	if zennUserID == "" {
+		fmt.Println("zenn user id required")
+		os.Exit(1)
+	}
+
 	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSS{})
 	err := u.Exec(context.Background(), zennUserID)
 	if err != nil {
