@@ -12,7 +12,7 @@ func TestProfile_Replace(t *testing.T) {
 		replaces string
 		output   *Profile
 	}{
-		"beginとendの両方がある": {
+		"置き換えの記述が存在する": {
 			input:    &Profile{Content: "こんにちは\n" + regexBegin + "\n書き換えられる前です\n" + regexEnd},
 			replaces: "\n書き換えました\n",
 			output: &Profile{
@@ -34,7 +34,7 @@ func TestProfile_Replace_Failed(t *testing.T) {
 	tests := map[string]struct {
 		input *Profile
 	}{
-		"置き換えフラグ箇所が存在しない": {
+		"置き換えの記述が存在しない": {
 			input: &Profile{Content: "こんにちは"},
 		},
 	}
@@ -42,7 +42,7 @@ func TestProfile_Replace_Failed(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			_, err := test.input.Replace("置き換えたい文章")
-			assert.Equal(t, ErrReplaceLinesNotFound, err)
+			assert.Equal(t, ErrReplaceStatementNotFound, err)
 		})
 	}
 }

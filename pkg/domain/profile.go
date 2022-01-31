@@ -17,9 +17,9 @@ const (
 )
 
 var (
-	regexLine = regexp.MustCompile(regexBegin + "(.*)" + regexEnd)
+	re = regexp.MustCompile(regexBegin + "(.*)" + regexEnd)
 
-	ErrReplaceLinesNotFound = errors.New("replace lines not found")
+	ErrReplaceStatementNotFound = errors.New("replace statement not found")
 )
 
 func (p *Profile) Replace(value string) (*Profile, error) {
@@ -29,11 +29,11 @@ func (p *Profile) Replace(value string) (*Profile, error) {
 		"\r", newLineCode,
 		"\n", newLineCode,
 	).Replace(p.Content)
-	if !regexLine.MatchString(newLineReplaced) {
-		return nil, ErrReplaceLinesNotFound
+	if !re.MatchString(newLineReplaced) {
+		return nil, ErrReplaceStatementNotFound
 	}
 
-	replaced := regexLine.ReplaceAllString(newLineReplaced, regexBegin+value+regexEnd)
+	replaced := re.ReplaceAllString(newLineReplaced, regexBegin+value+regexEnd)
 	p.Content = strings.ReplaceAll(replaced, newLineCode, "\n")
 
 	return p, nil
