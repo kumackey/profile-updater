@@ -17,7 +17,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSS{})
+	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSSClient{})
 	err := u.Exec(context.Background(), zennUserID)
 	if err != nil {
 		fmt.Println(err)

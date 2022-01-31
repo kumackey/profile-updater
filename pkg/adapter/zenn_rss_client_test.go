@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZennRSS_FetchArticles(t *testing.T) {
+func TestZennRSSClient_FetchArticles(t *testing.T) {
 	tests := map[string]struct {
 		userID       string
 		articleCount int
@@ -22,7 +22,7 @@ func TestZennRSS_FetchArticles(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			zenn := ZennRSS{}
+			zenn := ZennRSSClient{}
 			articles, err := zenn.FetchArticles(context.Background(), test.userID)
 			assert.Nil(t, err)
 			assert.GreaterOrEqual(t, len(articles), test.articleCount)
@@ -45,7 +45,7 @@ func TestZennRSS_FetchArticles_Failed(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			zenn := ZennRSS{}
+			zenn := ZennRSSClient{}
 			_, err := zenn.FetchArticles(context.Background(), test.userID)
 			assert.Equal(t, usecase.ErrZennAuthorNotFound, err)
 		})
