@@ -11,7 +11,7 @@ import (
 
 type ZennRSS struct{}
 
-func (c ZennRSS) FetchArticles(ctx context.Context, userID string) (domain.ZennArticles, error) {
+func (r ZennRSS) FetchArticles(ctx context.Context, userID string) (domain.ZennArticles, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://zenn.dev/"+userID+"/feed", http.NoBody)
 	if err != nil {
 		return nil, err

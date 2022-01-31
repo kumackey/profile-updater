@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	u := usecase.UpdateProfileUsecase{ProfileIO: adapter.ReadmeFileOS{}}
+	u := usecase.UpdateProfileUsecase{ProfileIO: adapter.ReadmeFileOS{}, ZennClient: adapter.ZennRSS{}}
 	err := u.Exec()
 	if err != nil {
 		fmt.Println(err)

@@ -1,11 +1,13 @@
 package usecase
 
 import (
+	"context"
 	"fmt"
 )
 
 type UpdateProfileUsecase struct {
-	ProfileIO ProfileIO
+	ProfileIO  ProfileIO
+	ZennClient ZennClient
 }
 
 func (u UpdateProfileUsecase) Exec() error {
@@ -14,7 +16,13 @@ func (u UpdateProfileUsecase) Exec() error {
 		return err
 	}
 
-	readme, err = readme.Replace("\n書き換えました\n")
+	ctx := context.Background()
+	articles, err := u.ZennClient.FetchArticles(ctx, "kumackey")
+	if err != nil {
+		return err
+	}
+
+	readme, err = readme.Replace(articles.SortByPublishedAt().ToProfileMarkdown())
 	if err != nil {
 		return err
 	}
