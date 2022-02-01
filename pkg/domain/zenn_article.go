@@ -4,6 +4,13 @@ import (
 	"time"
 )
 
+const (
+	JSTOffset = 9 * 60 * 60
+	asiaTokyo = "Asia/Tokyo"
+)
+
+var locationJST = time.FixedZone(asiaTokyo, JSTOffset)
+
 type ZennArticle struct {
 	Title       string
 	Link        string
@@ -16,5 +23,7 @@ type EnClosure struct {
 }
 
 func (z *ZennArticle) toMarkdown() string {
-	return "- [" + z.Title + "](" + z.Link + ")"
+	publishedAt := z.PublishedAt.In(locationJST).Format("Jan 2, ")
+
+	return "- " + publishedAt + "[" + z.Title + "](" + z.Link + ")"
 }

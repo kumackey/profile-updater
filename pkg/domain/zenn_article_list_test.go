@@ -8,6 +8,9 @@ import (
 )
 
 func TestZennArticleList_ToProfileMarkdown(t *testing.T) {
+	publishedAt1, _ := time.Parse(time.RFC3339, "2022-02-01T14:59:00+00:00")
+	publishedAt2, _ := time.Parse(time.RFC3339, "2022-02-01T15:00:00+00:00")
+
 	tests := map[string]struct {
 		input  ZennArticleList
 		output string
@@ -15,16 +18,18 @@ func TestZennArticleList_ToProfileMarkdown(t *testing.T) {
 		"マークダウンに変換できること": {
 			input: ZennArticleList{
 				&ZennArticle{
-					Title: "記事の例1",
-					Link:  "https://example.com/1",
+					Title:       "記事の例1",
+					Link:        "https://example.com/1",
+					PublishedAt: publishedAt1,
 				},
 				&ZennArticle{
-					Title: "記事の例2",
-					Link:  "https://example.com/2",
+					Title:       "記事の例2",
+					Link:        "https://example.com/2",
+					PublishedAt: publishedAt2,
 				},
 			},
 
-			output: "\n- [記事の例1](https://example.com/1)\n- [記事の例2](https://example.com/2)\n",
+			output: "\n- Feb 1, [記事の例1](https://example.com/1)\n- Feb 2, [記事の例2](https://example.com/2)\n",
 		},
 	}
 
