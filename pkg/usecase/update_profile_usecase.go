@@ -15,12 +15,12 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennM
 		return err
 	}
 
-	articles, err := u.zennClient.FetchArticleList(ctx, zennUserID)
+	zennList, err := u.zennClient.FetchArticleList(ctx, zennUserID)
 	if err != nil {
 		return err
 	}
 
-	readme, err = readme.Replace(articles.SortByPublishedAt().Limit(zennMaxArticles).ToProfileMarkdown())
+	readme, err = readme.Replace(zennList.SortByPublishedAt().Limit(zennMaxArticles).ToProfileMarkdown())
 	if err != nil {
 		return err
 	}
