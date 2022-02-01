@@ -40,6 +40,7 @@ jobs:
 
 該当アクションを手動実行することで、リストを取得し更新できます。
 
+![](./res/readme_output.png)
 ![](./res/readme_result.png)
 
 # How to use
