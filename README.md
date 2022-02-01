@@ -2,7 +2,7 @@
 
 Zennの記事のリストを取得し、プロフィールを更新します。
 
-# How to use
+# Get Started
 
 前提: [プロフィールの README を管理する - GitHub Docs](https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme)
 
@@ -41,3 +41,12 @@ jobs:
 該当アクションを手動実行することで、リストを取得し更新できます。
 
 ![](./res/readme_result.png)
+
+# How to use
+
+## withのパラメータ
+
+| パラメータ名            | 必須か | 説明              |
+|-------------------|-----|-----------------|
+| `zenn_user_id`      | YES | ZennのユーザID      |
+| `zenn_max_articles` | NO  | Zennの表示したい最大記事数 |
