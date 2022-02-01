@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const DefaultZennMaxArticles = 5
+
 type ZennArticle struct {
 	Title       string
 	Link        string
@@ -29,6 +31,21 @@ func (z ZennArticles) SortByPublishedAt() ZennArticles {
 	})
 
 	return z
+}
+
+func (z ZennArticles) Limit(limit int) ZennArticles {
+	articles := ZennArticles{}
+	count := 0
+	for _, article := range z {
+		if limit <= count {
+			break
+		}
+
+		articles = append(articles, article)
+		count += 1
+	}
+
+	return articles
 }
 
 func (z ZennArticles) ToProfileMarkdown() string {

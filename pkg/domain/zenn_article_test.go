@@ -66,3 +66,30 @@ func TestZennArticles_SortByPublishedAt(t *testing.T) {
 		})
 	}
 }
+
+func TestZennArticles_Limit(t *testing.T) {
+	tests := map[string]struct {
+		input  ZennArticles
+		limit  int
+		output ZennArticles
+	}{
+		"記事数を制限できること": {
+			input: ZennArticles{
+				&ZennArticle{Title: "first"},
+				&ZennArticle{Title: "second"},
+				&ZennArticle{Title: "third"},
+			},
+			limit: 1,
+			output: ZennArticles{
+				&ZennArticle{Title: "first"},
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			profile := test.input.Limit(test.limit)
+			assert.Equal(t, test.output, profile)
+		})
+	}
+}

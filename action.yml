@@ -5,6 +5,9 @@ inputs:
   zenn_user_id:
     description: 'Zenn user id'
     required: true
+  zenn_max_articles:
+    description: 'Zenn max article count'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'

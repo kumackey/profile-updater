@@ -9,7 +9,7 @@ type UpdateProfileUsecase struct {
 	zennClient ZennClient
 }
 
-func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string) error {
+func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennMaxArticles int) error {
 	readme, err := u.profileIO.Scan()
 	if err != nil {
 		return err
@@ -20,7 +20,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string) error
 		return err
 	}
 
-	readme, err = readme.Replace(articles.SortByPublishedAt().ToProfileMarkdown())
+	readme, err = readme.Replace(articles.SortByPublishedAt().Limit(zennMaxArticles).ToProfileMarkdown())
 	if err != nil {
 		return err
 	}
