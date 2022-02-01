@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kumackey/profile-updater/pkg/domain"
 	"os"
 	"strconv"
 
 	"github.com/kumackey/profile-updater/pkg/adapter"
+	"github.com/kumackey/profile-updater/pkg/domain"
 	"github.com/kumackey/profile-updater/pkg/usecase"
 )
 
