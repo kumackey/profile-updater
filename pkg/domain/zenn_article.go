@@ -23,7 +23,7 @@ type EnClosure struct {
 }
 
 func (z *ZennArticle) toMarkdown() string {
-	publishedAt := z.PublishedAt.In(locationJST).Format("Jan 2, ")
+	publishedAt := z.PublishedAt.In(locationJST).Format("Jan 2")
 
-	return "- " + publishedAt + "[" + z.Title + "](" + z.Link + ")"
+	return "- " + publishedAt + " [" + z.Title + "](" + z.Link + ")"
 }

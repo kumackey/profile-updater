@@ -29,7 +29,7 @@ func TestZennArticleList_ToProfileMarkdown(t *testing.T) {
 				},
 			},
 
-			output: "\n- Feb 1, [記事の例1](https://example.com/1)\n- Feb 2, [記事の例2](https://example.com/2)\n",
+			output: "\n- Feb 1 [記事の例1](https://example.com/1)\n- Feb 2 [記事の例2](https://example.com/2)\n",
 		},
 	}
 
