@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: kumackey/profile-updater@main
+      - uses: kumackey/profile-updater@v1
         with:
           zenn_user_id: kumackey
       - name: Commit and push
