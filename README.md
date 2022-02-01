@@ -10,7 +10,7 @@ Zennの記事のリストを取得し、プロフィールを更新します。
 `zenn_user_id`には自分のZennのユーザIDを入れてください。
 
 ```yaml:.github/workflows/profile.yml
-name: update readme
+name: profile updater
 
 on: [ workflow_dispatch ]
 

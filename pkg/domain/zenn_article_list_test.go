@@ -7,13 +7,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZennArticle_ToProfileMarkdown(t *testing.T) {
+func TestZennArticleList_ToProfileMarkdown(t *testing.T) {
 	tests := map[string]struct {
-		input  ZennArticles
+		input  ZennArticleList
 		output string
 	}{
 		"マークダウンに変換できること": {
-			input: ZennArticles{
+			input: ZennArticleList{
 				&ZennArticle{
 					Title: "記事の例1",
 					Link:  "https://example.com/1",
@@ -36,22 +36,22 @@ func TestZennArticle_ToProfileMarkdown(t *testing.T) {
 	}
 }
 
-func TestZennArticles_SortByPublishedAt(t *testing.T) {
+func TestZennArticleList_SortByPublishedAt(t *testing.T) {
 	first, _ := time.Parse(time.RFC3339, "2022-02-01T00:00:01+09:00")
 	second, _ := time.Parse(time.RFC3339, "2022-02-01T00:00:02+09:00")
 	third, _ := time.Parse(time.RFC3339, "2022-02-01T00:00:03+09:00")
 
 	tests := map[string]struct {
-		input  ZennArticles
-		output ZennArticles
+		input  ZennArticleList
+		output ZennArticleList
 	}{
 		"出版の遅い順となること": {
-			input: ZennArticles{
+			input: ZennArticleList{
 				&ZennArticle{PublishedAt: second},
 				&ZennArticle{PublishedAt: first},
 				&ZennArticle{PublishedAt: third},
 			},
-			output: ZennArticles{
+			output: ZennArticleList{
 				&ZennArticle{PublishedAt: third},
 				&ZennArticle{PublishedAt: second},
 				&ZennArticle{PublishedAt: first},
@@ -67,20 +67,20 @@ func TestZennArticles_SortByPublishedAt(t *testing.T) {
 	}
 }
 
-func TestZennArticles_Limit(t *testing.T) {
+func TestZennArticleList_Limit(t *testing.T) {
 	tests := map[string]struct {
-		input  ZennArticles
+		input  ZennArticleList
 		limit  int
-		output ZennArticles
+		output ZennArticleList
 	}{
 		"記事数を制限できること": {
-			input: ZennArticles{
+			input: ZennArticleList{
 				&ZennArticle{Title: "first"},
 				&ZennArticle{Title: "second"},
 				&ZennArticle{Title: "third"},
 			},
 			limit: 1,
-			output: ZennArticles{
+			output: ZennArticleList{
 				&ZennArticle{Title: "first"},
 			},
 		},

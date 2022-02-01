@@ -1,11 +1,8 @@
 package domain
 
 import (
-	"sort"
 	"time"
 )
-
-const DefaultZennMaxArticles = 5
 
 type ZennArticle struct {
 	Title       string
@@ -20,39 +17,4 @@ type EnClosure struct {
 
 func (z *ZennArticle) toMarkdown() string {
 	return "- [" + z.Title + "](" + z.Link + ")"
-}
-
-type ZennArticles []*ZennArticle
-
-func (z ZennArticles) SortByPublishedAt() ZennArticles {
-	sort.Slice(z, func(i, j int) bool {
-		// 公開が遅い順
-		return z[j].PublishedAt.Unix() < z[i].PublishedAt.Unix()
-	})
-
-	return z
-}
-
-func (z ZennArticles) Limit(limit int) ZennArticles {
-	articles := ZennArticles{}
-	count := 0
-	for _, article := range z {
-		if limit <= count {
-			break
-		}
-
-		articles = append(articles, article)
-		count += 1
-	}
-
-	return articles
-}
-
-func (z ZennArticles) ToProfileMarkdown() string {
-	profileMarkdown := "\n"
-	for _, article := range z {
-		profileMarkdown = profileMarkdown + article.toMarkdown() + "\n"
-	}
-
-	return profileMarkdown
 }

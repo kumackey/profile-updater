@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZennRSSClient_FetchArticles(t *testing.T) {
+func TestZennRSSClient_FetchArticleList(t *testing.T) {
 	tests := map[string]struct {
 		userID       string
 		articleCount int
@@ -23,14 +23,14 @@ func TestZennRSSClient_FetchArticles(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			zenn := ZennRSSClient{}
-			articles, err := zenn.FetchArticles(context.Background(), test.userID)
+			list, err := zenn.FetchArticleList(context.Background(), test.userID)
 			assert.Nil(t, err)
-			assert.GreaterOrEqual(t, len(articles), test.articleCount)
+			assert.GreaterOrEqual(t, len(list), test.articleCount)
 		})
 	}
 }
 
-func TestZennRSS_FetchArticles_Failed(t *testing.T) {
+func TestZennRSS_FetchArticleList_Failed(t *testing.T) {
 	//nolint:gosec // ランダム文字列を作りたいだけなので無視
 	random := strconv.Itoa(rand.Intn(100000))
 
@@ -46,7 +46,7 @@ func TestZennRSS_FetchArticles_Failed(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			zenn := ZennRSSClient{}
-			_, err := zenn.FetchArticles(context.Background(), test.userID)
+			_, err := zenn.FetchArticleList(context.Background(), test.userID)
 			assert.Equal(t, usecase.ErrZennAuthorNotFound, err)
 		})
 	}

@@ -6,7 +6,7 @@ inputs:
     description: 'Zenn user id'
     required: true
   zenn_max_articles:
-    description: 'Zenn max article count'
+    description: 'Zenn max article count, default 5'
     required: false
 runs:
   using: 'docker'

@@ -12,7 +12,7 @@ import (
 
 type ZennRSSClient struct{}
 
-func (r ZennRSSClient) FetchArticles(ctx context.Context, userID string) (domain.ZennArticles, error) {
+func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) (domain.ZennArticleList, error) {
 	// https://zenn.dev/zenn/articles/zenn-feed-rss
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://zenn.dev/"+userID+"/feed", http.NoBody)
 	if err != nil {
@@ -46,17 +46,17 @@ func (r ZennRSSClient) FetchArticles(ctx context.Context, userID string) (domain
 	}
 
 	// https://go-critic.com/overview#rangevalcopy
-	articles := make(domain.ZennArticles, 0, len(rss.Items))
+	list := make(domain.ZennArticleList, 0, len(rss.Items))
 	for i := range rss.Items {
 		article, err := r.convertItemToArticle(&rss.Items[i])
 		if err != nil {
 			return nil, err
 		}
 
-		articles = append(articles, article)
+		list = append(list, article)
 	}
 
-	return articles, nil
+	return list, nil
 }
 
 func (r ZennRSSClient) convertItemToArticle(item *zennItem) (*domain.ZennArticle, error) {

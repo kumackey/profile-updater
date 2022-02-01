@@ -14,5 +14,5 @@ var (
 )
 
 type ZennClient interface {
-	FetchArticles(ctx context.Context, userID string) (domain.ZennArticles, error)
+	FetchArticleList(ctx context.Context, userID string) (domain.ZennArticleList, error)
 }

@@ -15,7 +15,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennM
 		return err
 	}
 
-	articles, err := u.zennClient.FetchArticles(ctx, zennUserID)
+	articles, err := u.zennClient.FetchArticleList(ctx, zennUserID)
 	if err != nil {
 		return err
 	}
