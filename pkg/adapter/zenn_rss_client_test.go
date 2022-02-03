@@ -35,11 +35,10 @@ func TestZennRSS_FetchArticleList_Failed(t *testing.T) {
 	random := strconv.Itoa(rand.Intn(100000))
 
 	tests := map[string]struct {
-		userID       string
-		articleCount int
+		userID string
 	}{
 		"適当なユーザ名ではフィードが発見できない": {
-			"unknownUser" + random, 8,
+			"unknownUser" + random,
 		},
 	}
 
