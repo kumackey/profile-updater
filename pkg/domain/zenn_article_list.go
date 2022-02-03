@@ -18,7 +18,7 @@ func (l ZennArticleList) ToProfileMarkdown() string {
 func (l ZennArticleList) SortByPublishedAt() ZennArticleList {
 	sort.Slice(l, func(i, j int) bool {
 		// 公開が遅い順
-		return l[j].PublishedAt.Unix() < l[i].PublishedAt.Unix()
+		return l[j].publishedAt.Unix() < l[i].publishedAt.Unix()
 	})
 
 	return l

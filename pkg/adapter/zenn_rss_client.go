@@ -65,10 +65,5 @@ func (r ZennRSSClient) convertItemToArticle(item *zennItem) (*domain.ZennArticle
 		return nil, err
 	}
 
-	return &domain.ZennArticle{
-		Title:       item.Title,
-		Link:        item.Link,
-		EnClosure:   domain.EnClosure{URL: item.Enclosure.URL},
-		PublishedAt: publishedAt,
-	}, nil
+	return domain.NewZennArticle(item.Title, item.Link, publishedAt), nil
 }
