@@ -48,22 +48,13 @@ func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) (dom
 	// https://go-critic.com/overview#rangevalcopy
 	list := make(domain.ZennArticleList, 0, len(rss.Items))
 	for i := range rss.Items {
-		article, err := r.convertItemToArticle(&rss.Items[i])
+		publishedAt, err := time.Parse(time.RFC1123, rss.Items[i].PubDate)
 		if err != nil {
 			return nil, err
 		}
 
-		list = append(list, article)
+		list = append(list, domain.NewZennArticle(rss.Items[i].Title, rss.Items[i].Link, publishedAt))
 	}
 
 	return list, nil
-}
-
-func (r ZennRSSClient) convertItemToArticle(item *zennItem) (*domain.ZennArticle, error) {
-	publishedAt, err := time.Parse(time.RFC1123, item.PubDate)
-	if err != nil {
-		return nil, err
-	}
-
-	return domain.NewZennArticle(item.Title, item.Link, publishedAt), nil
 }

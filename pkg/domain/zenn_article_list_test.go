@@ -17,12 +17,12 @@ func TestZennArticleList_ToProfileMarkdown(t *testing.T) {
 	}{
 		"マークダウンに変換できること": {
 			input: ZennArticleList{
-				&ZennArticle{
+				&zennArticle{
 					title:       "記事の例1",
 					link:        "https://example.com/1",
 					publishedAt: publishedAt1,
 				},
-				&ZennArticle{
+				&zennArticle{
 					title:       "記事の例2",
 					link:        "https://example.com/2",
 					publishedAt: publishedAt2,
@@ -52,14 +52,14 @@ func TestZennArticleList_SortByPublishedAt(t *testing.T) {
 	}{
 		"出版の遅い順となること": {
 			input: ZennArticleList{
-				&ZennArticle{publishedAt: second},
-				&ZennArticle{publishedAt: first},
-				&ZennArticle{publishedAt: third},
+				&zennArticle{publishedAt: second},
+				&zennArticle{publishedAt: first},
+				&zennArticle{publishedAt: third},
 			},
 			output: ZennArticleList{
-				&ZennArticle{publishedAt: third},
-				&ZennArticle{publishedAt: second},
-				&ZennArticle{publishedAt: first},
+				&zennArticle{publishedAt: third},
+				&zennArticle{publishedAt: second},
+				&zennArticle{publishedAt: first},
 			},
 		},
 	}
@@ -80,13 +80,13 @@ func TestZennArticleList_Limit(t *testing.T) {
 	}{
 		"記事数を制限できること": {
 			input: ZennArticleList{
-				&ZennArticle{title: "first"},
-				&ZennArticle{title: "second"},
-				&ZennArticle{title: "third"},
+				&zennArticle{title: "first"},
+				&zennArticle{title: "second"},
+				&zennArticle{title: "third"},
 			},
 			limit: 1,
 			output: ZennArticleList{
-				&ZennArticle{title: "first"},
+				&zennArticle{title: "first"},
 			},
 		},
 	}

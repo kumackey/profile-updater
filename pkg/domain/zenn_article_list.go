@@ -4,7 +4,7 @@ import "sort"
 
 const DefaultZennMaxArticles = 5
 
-type ZennArticleList []*ZennArticle
+type ZennArticleList []*zennArticle
 
 func (l ZennArticleList) ToProfileMarkdown() string {
 	profileMarkdown := "\n"
