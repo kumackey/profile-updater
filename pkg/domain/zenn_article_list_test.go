@@ -15,7 +15,7 @@ func TestZennArticleList_ToProfileMarkdown(t *testing.T) {
 		input  ZennArticleList
 		output string
 	}{
-		"マークダウンに変換できること": {
+		"マークダウンに変換できる": {
 			input: ZennArticleList{
 				&zennArticle{
 					title:       "記事の例1",
@@ -50,7 +50,7 @@ func TestZennArticleList_SortByPublishedAt(t *testing.T) {
 		input  ZennArticleList
 		output ZennArticleList
 	}{
-		"出版の遅い順となること": {
+		"出版の遅い順となる": {
 			input: ZennArticleList{
 				&zennArticle{publishedAt: second},
 				&zennArticle{publishedAt: first},
@@ -78,7 +78,7 @@ func TestZennArticleList_Limit(t *testing.T) {
 		limit  int
 		output ZennArticleList
 	}{
-		"記事数を制限できること": {
+		"記事数を制限できる": {
 			input: ZennArticleList{
 				&zennArticle{title: "first"},
 				&zennArticle{title: "second"},
