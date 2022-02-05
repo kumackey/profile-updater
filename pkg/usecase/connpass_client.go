@@ -6,5 +6,5 @@ import (
 )
 
 type ConnpassClient interface {
-	FetchEventList(ctx context.Context, userNickName string) (domain.ConpassEventList, error)
+	FetchEventList(ctx context.Context, userNickname string) (domain.ConpassEventList, error)
 }

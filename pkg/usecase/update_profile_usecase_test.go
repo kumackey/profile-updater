@@ -39,8 +39,8 @@ type connpassClientMock struct {
 	mock.Mock
 }
 
-func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickName string) (domain.ConpassEventList, error) {
-	ret := m.Called(ctx, userNickName)
+func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname string) (domain.ConpassEventList, error) {
+	ret := m.Called(ctx, userNickname)
 
 	return ret.Get(0).(domain.ConpassEventList), ret.Error(1)
 }
@@ -50,7 +50,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 	type input struct {
 		zennUserID        string
 		zennMaxArticles   int
-		connpassNickName  string
+		connpassNickname  string
 		connpassMaxEvents int
 	}
 
@@ -98,7 +98,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(domain.ConpassEventList{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 
-			err := usecase.Exec(context.Background(), test.input.zennUserID, test.input.zennMaxArticles, test.input.connpassNickName, test.input.connpassMaxEvents)
+			err := usecase.Exec(context.Background(), test.input.zennUserID, test.input.zennMaxArticles, test.input.connpassNickname, test.input.connpassMaxEvents)
 			assert.Equal(t, test.output, err)
 		})
 	}

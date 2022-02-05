@@ -2,8 +2,6 @@ package domain
 
 import "sort"
 
-const DefaultZennMaxArticles = 5
-
 type ZennArticleList []*zennArticle
 
 func (l ZennArticleList) ToProfileMarkdown() string {

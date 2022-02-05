@@ -2,14 +2,12 @@ package domain
 
 import "sort"
 
-const DefaultConnpassMaxEvents = 5
-
 type ConpassEventList []*connpassEvent
 
-func (l ConpassEventList) ToProfileMarkdown(userNickName string) string {
+func (l ConpassEventList) ToProfileMarkdown(userNickname string) string {
 	profileMarkdown := "\n"
 	for _, event := range l {
-		profileMarkdown = profileMarkdown + event.toMarkdown(userNickName) + "\n"
+		profileMarkdown = profileMarkdown + event.toMarkdown(userNickname) + "\n"
 	}
 
 	return profileMarkdown

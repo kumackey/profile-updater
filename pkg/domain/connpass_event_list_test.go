@@ -18,8 +18,8 @@ func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
 	}{
 		"マークダウンに変換できる": {
 			input: ConpassEventList{
-				&connpassEvent{title: "イベントの例1", link: "https://example.com/1", ownerNickName: organizer, startedAt: publishedAt1},
-				&connpassEvent{title: "イベントの例2", link: "https://example.com/2", ownerNickName: "unkwown", startedAt: publishedAt2},
+				&connpassEvent{title: "イベントの例1", link: "https://example.com/1", ownerNickname: organizer, startedAt: publishedAt1},
+				&connpassEvent{title: "イベントの例2", link: "https://example.com/2", ownerNickname: "unkwown", startedAt: publishedAt2},
 			},
 			output: "\n- Feb 1 **Organizer** [イベントの例1](https://example.com/1)\n- Feb 2 [イベントの例2](https://example.com/2)\n",
 		},

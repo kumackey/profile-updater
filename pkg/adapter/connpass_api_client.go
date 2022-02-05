@@ -8,11 +8,11 @@ import (
 
 type ConnpassAPIClient struct{}
 
-func (c ConnpassAPIClient) FetchEventList(ctx context.Context, userNickName string) (domain.ConpassEventList, error) {
+func (c ConnpassAPIClient) FetchEventList(ctx context.Context, userNickname string) (domain.ConpassEventList, error) {
 	client := connpass.NewClient()
 
 	// https://connpass.com/about/api/
-	params, err := connpass.SearchParam(connpass.Nickname(userNickName))
+	params, err := connpass.SearchParam(connpass.Nickname(userNickname))
 	if err != nil {
 		return nil, err
 	}

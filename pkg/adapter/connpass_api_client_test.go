@@ -9,7 +9,7 @@ import (
 
 func TestConnpassAPIClient_FetchEventList(t *testing.T) {
 	tests := map[string]struct {
-		userNickName string
+		userNickname string
 		eventCount   int
 	}{
 		"kumackeyは10イベント以上は参加している": {
@@ -20,7 +20,7 @@ func TestConnpassAPIClient_FetchEventList(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			client := ConnpassAPIClient{}
-			list, err := client.FetchEventList(context.Background(), test.userNickName)
+			list, err := client.FetchEventList(context.Background(), test.userNickname)
 			assert.Nil(t, err)
 			assert.GreaterOrEqual(t, len(list), test.eventCount)
 		})
