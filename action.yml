@@ -1,12 +1,18 @@
 name: 'Profile Updater'
-description: 'This action updates your readme with Zenn, Qiita, etc.'
+description: 'This action updates your readme with Zenn, connpass, Qiita, etc.'
 author: 'kumackey <kumak1t09e0@gmail.com>'
 inputs:
   zenn_user_id:
     description: 'Zenn user id'
-    required: true
+    required: false
   zenn_max_articles:
     description: 'Zenn max article count, default 5'
+    required: false
+  connpass_nickname:
+    description: 'connpass nickname'
+    required: false
+  connpass_max_events:
+    description: 'connpass max event count, default 5'
     required: false
 runs:
   using: 'docker'
