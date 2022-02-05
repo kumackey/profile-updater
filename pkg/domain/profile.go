@@ -11,18 +11,28 @@ type Profile struct {
 }
 
 const (
-	newLineCode = "q7ldEirrDId1o2crkGhA"
-	regexBegin  = "<!-- profile updater begin: zenn -->"
-	regexEnd    = "<!-- profile updater end: zenn -->"
+	newLineCode        = "q7ldEirrDId1o2crkGhA"
+	regexZennBegin     = "<!-- profile updater begin: zenn -->"
+	regexZennEnd       = "<!-- profile updater end: zenn -->"
+	regexConnpassBegin = "<!-- profile updater begin: connpass -->"
+	regexConnpassEnd   = "<!-- profile updater end: connpass -->"
 )
 
 var (
-	re = regexp.MustCompile(regexBegin + "(.*)" + regexEnd)
-
 	ErrReplaceStatementNotFound = errors.New("replace statement not found")
 )
 
-func (p *Profile) Replace(value string) (*Profile, error) {
+func (p *Profile) ReplaceZenn(value string) (*Profile, error) {
+	return p.replace(value, regexZennBegin, regexZennEnd)
+}
+
+func (p *Profile) ReplaceConnpass(value string) (*Profile, error) {
+	return p.replace(value, regexConnpassBegin, regexConnpassEnd)
+}
+
+func (p *Profile) replace(value string, replaceBegin string, replaceEnd string) (*Profile, error) {
+	re := regexp.MustCompile(replaceBegin + "(.*)" + replaceEnd)
+
 	// 正規表現における改行コード対策
 	// https://qiita.com/spiegel-im-spiegel/items/f1cc014ecb233afaa8af
 	newLineReplaced := strings.NewReplacer(
@@ -34,7 +44,7 @@ func (p *Profile) Replace(value string) (*Profile, error) {
 		return nil, ErrReplaceStatementNotFound
 	}
 
-	replaced := re.ReplaceAllString(newLineReplaced, regexBegin+value+regexEnd)
+	replaced := re.ReplaceAllString(newLineReplaced, replaceBegin+value+replaceEnd)
 	p.Content = strings.ReplaceAll(replaced, newLineCode, "\n")
 
 	return p, nil
