@@ -27,7 +27,7 @@ jobs:
           git config --local user.name "GitHub Actions"
           git config --local user.email "action@github.com"
           git add .
-          git commit -m "profile updated"
+          git commit -m "profile updated" || true
           git push origin main
 ```
 
@@ -47,7 +47,32 @@ jobs:
 
 ## withのパラメータ
 
-| パラメータ名            | 必須か | 説明                      |
-|-------------------|-----|-------------------------|
-| `zenn_user_id`      | YES | ZennのユーザID              |
-| `zenn_max_articles` | NO  | Zennの表示したい最大記事数。デフォルトは5 |
+| パラメータ名                | 必須か | 説明                            |
+|-----------------------|-----|-------------------------------|
+| `zenn_user_id`        | NO  | ZennのユーザID                    |
+| `zenn_max_articles`   | NO  | Zennの表示したい最大記事数。デフォルトは5       |
+| `connpass_nickname`   | NO  | connpassのユーザ名                 |
+| `connpass_max_events` | NO  | connpassの表示したい最大イベント数。デフォルトは5 |
+
+## zenn
+
+withのパラメータとして`zenn_user_id`を指定してください。 その上で、README.md内に以下記述を追加してください。
+
+```text:README.md
+<!-- profile updater begin: zenn -->
+<!-- profile updater end: zenn -->
+```
+
+## connpass
+
+withのパラメータとして`connpass_nickname`を指定してください。 その上で、`README.md`内に以下記述を追加してください。
+
+```text:README.md
+<!-- profile updater begin: connpass -->
+<!-- profile updater end: connpass -->
+```
+
+## replace statement not found って言われるんやけど
+
+README.md内に`<!-- profile updater begin: ...`の記述がないと起こります。 zennおよびconnpassを参考に、`README.md`に追記してください。
+
