@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+
 	"github.com/kumackey/profile-updater/pkg/domain"
 )
 

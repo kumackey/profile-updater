@@ -2,6 +2,7 @@ package adapter
 
 import (
 	"context"
+
 	"github.com/kumackey/profile-updater/pkg/domain"
 	"github.com/tenntenn/connpass"
 )

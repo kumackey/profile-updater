@@ -9,6 +9,6 @@ const (
 
 var locationJST = time.FixedZone(asiaTokyo, JSTOffset)
 
-func convertTimeToString(time time.Time) string {
-	return time.In(locationJST).Format("Jan 2")
+func convertTimeToString(datetime time.Time) string {
+	return datetime.In(locationJST).Format("Jan 2")
 }

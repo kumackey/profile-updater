@@ -13,7 +13,13 @@ type UpdateProfileUsecase struct {
 // DefaultMaxLines はデフォルトでの最大行数
 const DefaultMaxLines = 5
 
-func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennMaxArticles int, connpassNickname string, connpassMaxEvents int) error {
+func (u UpdateProfileUsecase) Exec(
+	ctx context.Context,
+	zennUserID string,
+	zennMaxArticles int,
+	connpassNickname string,
+	connpassMaxEvents int,
+) error {
 	profile, err := u.profileIO.Scan()
 	if err != nil {
 		return err
@@ -25,7 +31,9 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennM
 			return err
 		}
 
-		profile, err = profile.ReplaceZenn(zennList.SortByPublishedAt().Limit(zennMaxArticles).ToProfileMarkdown())
+		replaceValue := zennList.SortByPublishedAt().Limit(zennMaxArticles).ToProfileMarkdown()
+
+		profile, err = profile.ReplaceZenn(replaceValue)
 		if err != nil {
 			return err
 		}
@@ -37,7 +45,9 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennM
 			return err
 		}
 
-		profile, err = profile.ReplaceConnpass(connpassList.SortByPublishedAt().Limit(connpassMaxEvents).ToProfileMarkdown(connpassNickname))
+		replaceValue := connpassList.SortByPublishedAt().Limit(connpassMaxEvents).ToProfileMarkdown(connpassNickname)
+
+		profile, err = profile.ReplaceConnpass(replaceValue)
 		if err != nil {
 			return err
 		}
@@ -51,7 +61,11 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, zennUserID string, zennM
 	return nil
 }
 
-func NewUpdateProfileUsecase(profileIO ProfileIO, zennClient ZennClient, connpassClient ConnpassClient) UpdateProfileUsecase {
+func NewUpdateProfileUsecase(
+	profileIO ProfileIO,
+	zennClient ZennClient,
+	connpassClient ConnpassClient,
+) UpdateProfileUsecase {
 	return UpdateProfileUsecase{
 		profileIO:      profileIO,
 		zennClient:     zennClient,

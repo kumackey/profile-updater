@@ -46,7 +46,6 @@ func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname st
 }
 
 func TestUpdateProfileUsecase_Exec(t *testing.T) {
-
 	type input struct {
 		zennUserID        string
 		zennMaxArticles   int
@@ -64,7 +63,8 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				"kumackey", 5, "kumackey", 5,
 			},
 			retProfileIOScan: &domain.Profile{
-				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn --><!-- profile updater begin: connpass --><!-- profile updater end: connpass -->",
+				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->" +
+					"<!-- profile updater begin: connpass --><!-- profile updater end: connpass -->",
 			},
 			output: nil,
 		},
@@ -98,7 +98,13 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(domain.ConpassEventList{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 
-			err := usecase.Exec(context.Background(), test.input.zennUserID, test.input.zennMaxArticles, test.input.connpassNickname, test.input.connpassMaxEvents)
+			err := usecase.Exec(
+				context.Background(),
+				test.input.zennUserID,
+				test.input.zennMaxArticles,
+				test.input.connpassNickname,
+				test.input.connpassMaxEvents,
+			)
 			assert.Equal(t, test.output, err)
 		})
 	}
