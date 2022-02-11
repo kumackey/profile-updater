@@ -25,13 +25,20 @@ func main() {
 		os.Exit(1)
 	}
 
-	if zennUserID == "" && connpassNickname == "" {
+	qiitaUserID := os.Getenv("INPUT_QIITA_USER_ID")
+	qiitaMaxArticles, err := getMaxLines(os.Getenv("INPUT_QIITA_MAX_ARTICLES"))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	if zennUserID == "" && connpassNickname == "" && qiitaUserID == "" {
 		fmt.Println("zenn user id or connpass nickname required")
 		os.Exit(1)
 	}
 
 	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAtomClient{})
-	err = u.Exec(context.Background(), zennUserID, zennMaxArticles, connpassNickname, connpassMaxEvents, "", 0)
+	err = u.Exec(context.Background(), zennUserID, zennMaxArticles, connpassNickname, connpassMaxEvents, qiitaUserID, qiitaMaxArticles)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

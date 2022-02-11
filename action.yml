@@ -14,6 +14,12 @@ inputs:
   connpass_max_events:
     description: 'connpass max event count, default 5'
     required: false
+  qiita_user_id:
+    description: 'Qiita user id'
+    required: false
+  qiita_max_articles:
+    description: 'Qiita max article count, default 5'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
