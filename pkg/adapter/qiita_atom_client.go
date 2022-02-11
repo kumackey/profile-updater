@@ -27,14 +27,14 @@ func (r QiitaAtomClient) FetchArticleList(ctx context.Context, userID string) (d
 
 	if resp.StatusCode != http.StatusOK {
 		if http.StatusInternalServerError < resp.StatusCode {
-			return nil, usecase.ErrZennInternalServerError
+			return nil, usecase.ErrQiitaInternalServerError
 		}
 
 		if resp.StatusCode == http.StatusNotFound {
-			return nil, usecase.ErrZennAuthorNotFound
+			return nil, usecase.ErrQiitaAuthorNotFound
 		}
 
-		return nil, usecase.ErrZennUnknownError
+		return nil, usecase.ErrQiitaUnknownError
 	}
 
 	var atom qiitaUserFeed
@@ -44,7 +44,6 @@ func (r QiitaAtomClient) FetchArticleList(ctx context.Context, userID string) (d
 		return nil, err
 	}
 
-	// https://go-critic.com/overview#rangevalcopy
 	list := make(domain.QiitaArticleList, 0, len(atom.Entries))
 	for i := range atom.Entries {
 		publishedAt, err := time.Parse(time.RFC3339, atom.Entries[i].Published)
