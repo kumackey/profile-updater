@@ -16,6 +16,8 @@ const (
 	regexZennEnd       = "<!-- profile updater end: zenn -->"
 	regexConnpassBegin = "<!-- profile updater begin: connpass -->" //nolint:gosec // セキュリティの問題でないので無視
 	regexConnpassEnd   = "<!-- profile updater end: connpass -->"   //nolint:gosec // セキュリティの問題でないので無視
+	regexQiitaBegin    = "<!-- profile updater begin: qiita -->"
+	regexQiitaEnd      = "<!-- profile updater end: qiita -->"
 )
 
 var (
@@ -28,6 +30,10 @@ func (p *Profile) ReplaceZenn(value string) (*Profile, error) {
 
 func (p *Profile) ReplaceConnpass(value string) (*Profile, error) {
 	return p.replace(value, regexConnpassBegin, regexConnpassEnd)
+}
+
+func (p *Profile) ReplaceQiita(value string) (*Profile, error) {
+	return p.replace(value, regexQiitaBegin, regexQiitaEnd)
 }
 
 func (p *Profile) replace(value, replaceBegin, replaceEnd string) (*Profile, error) {

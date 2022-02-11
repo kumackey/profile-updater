@@ -8,17 +8,16 @@ type UpdateProfileUsecase struct {
 	profileIO      ProfileIO
 	zennClient     ZennClient
 	connpassClient ConnpassClient
+	qiitaClient    QiitaClient
 }
 
 // DefaultMaxLines はデフォルトでの最大行数
 const DefaultMaxLines = 5
 
 func (u UpdateProfileUsecase) Exec(
-	ctx context.Context,
-	zennUserID string,
-	zennMaxArticles int,
-	connpassNickname string,
-	connpassMaxEvents int,
+	ctx context.Context, zennUserID string, zennMaxArticles int,
+	connpassNickname string, connpassMaxEvents int,
+	qiitaUserID string, qiitaMaxArticles int,
 ) error {
 	profile, err := u.profileIO.Scan()
 	if err != nil {
@@ -53,6 +52,20 @@ func (u UpdateProfileUsecase) Exec(
 		}
 	}
 
+	if qiitaUserID != "" {
+		connpassList, err := u.qiitaClient.FetchArticleList(ctx, qiitaUserID)
+		if err != nil {
+			return err
+		}
+
+		replaceValue := connpassList.SortByPublishedAt().Limit(qiitaMaxArticles).ToProfileMarkdown()
+
+		profile, err = profile.ReplaceConnpass(replaceValue)
+		if err != nil {
+			return err
+		}
+	}
+
 	err = u.profileIO.Write(profile)
 	if err != nil {
 		return err
@@ -62,13 +75,12 @@ func (u UpdateProfileUsecase) Exec(
 }
 
 func NewUpdateProfileUsecase(
-	profileIO ProfileIO,
-	zennClient ZennClient,
-	connpassClient ConnpassClient,
+	profileIO ProfileIO, zennClient ZennClient, connpassClient ConnpassClient, qiitaClient QiitaClient,
 ) UpdateProfileUsecase {
 	return UpdateProfileUsecase{
 		profileIO:      profileIO,
 		zennClient:     zennClient,
 		connpassClient: connpassClient,
+		qiitaClient:    qiitaClient,
 	}
 }

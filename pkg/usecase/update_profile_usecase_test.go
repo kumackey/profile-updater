@@ -45,22 +45,39 @@ func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname st
 	return ret.Get(0).(domain.ConpassEventList), ret.Error(1)
 }
 
+type qiitaClientMock struct {
+	mock.Mock
+}
+
+func (m *qiitaClientMock) FetchArticleList(ctx context.Context, userID string) (domain.QiitaArticleList, error) {
+	ret := m.Called(ctx, userID)
+
+	return ret.Get(0).(domain.QiitaArticleList), ret.Error(1)
+}
+
 func TestUpdateProfileUsecase_Exec(t *testing.T) {
 	type input struct {
 		zennUserID        string
 		zennMaxArticles   int
 		connpassNickname  string
 		connpassMaxEvents int
+		qiitaUserID       string
+		qiitaMaxArticles  int
 	}
 
-	tests := map[string]struct {
+	var tests = map[string]struct {
 		input            input
 		retProfileIOScan *domain.Profile
 		output           error
 	}{
-		"ZennとConnpassの両方の値が入っている": {
+		"全部の値が入っている": {
 			input: input{
-				"kumackey", 5, "kumackey", 5,
+				zennUserID:        "kumackey",
+				zennMaxArticles:   5,
+				connpassNickname:  "kumackey",
+				connpassMaxEvents: 5,
+				qiitaUserID:       "kumackey",
+				qiitaMaxArticles:  5,
 			},
 			retProfileIOScan: &domain.Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->" +
@@ -70,7 +87,10 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 		},
 		"Zennだけの値が入っている": {
 			input: input{
-				"kumackey", 5, "", 5,
+				zennUserID:        "kumackey",
+				zennMaxArticles:   5,
+				connpassMaxEvents: 5,
+				qiitaMaxArticles:  5,
 			},
 			retProfileIOScan: &domain.Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->",
@@ -79,32 +99,30 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 		},
 		"Zennの値が入っているのに、プロフィールに該当する置換箇所がない": {
 			input: input{
-				"kumackey", 5, "", 5,
+				zennUserID:        "kumackey",
+				zennMaxArticles:   5,
+				connpassMaxEvents: 5,
+				qiitaMaxArticles:  5,
 			},
 			retProfileIOScan: &domain.Profile{},
 			output:           domain.ErrReplaceStatementNotFound,
 		},
 	}
-
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			profileIOMock := new(profileIOMock)
 			zennClientMock := new(zennClientMock)
 			connpassClientMock := new(connpassClientMock)
-			usecase := UpdateProfileUsecase{profileIOMock, zennClientMock, connpassClientMock}
+			qiitaClientMock := new(qiitaClientMock)
+			usecase := UpdateProfileUsecase{profileIOMock, zennClientMock, connpassClientMock, qiitaClientMock}
 
 			profileIOMock.On("Write", mock.Anything).Return(nil)
 			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.ZennArticleList{}, nil)
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(domain.ConpassEventList{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
+			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.QiitaArticleList{}, nil)
 
-			err := usecase.Exec(
-				context.Background(),
-				test.input.zennUserID,
-				test.input.zennMaxArticles,
-				test.input.connpassNickname,
-				test.input.connpassMaxEvents,
-			)
+			err := usecase.Exec(context.Background(), test.input.zennUserID, test.input.zennMaxArticles, test.input.connpassNickname, test.input.connpassMaxEvents, "", 0)
 			assert.Equal(t, test.output, err)
 		})
 	}

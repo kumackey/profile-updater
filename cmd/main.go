@@ -30,8 +30,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{})
-	err = u.Exec(context.Background(), zennUserID, zennMaxArticles, connpassNickname, connpassMaxEvents)
+	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAtomClient{})
+	err = u.Exec(context.Background(), zennUserID, zennMaxArticles, connpassNickname, connpassMaxEvents, "", 0)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
