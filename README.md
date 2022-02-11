@@ -87,3 +87,13 @@ withのパラメータとして`qiita_user_id`を指定してください。 そ
 
 README.md内に`<!-- profile updater begin: ...`の記述がないと起こります。 zennおよびconnpassを参考に、`README.md`に追記してください。
 
+## 定期更新の仕方(おすすめ)
+
+Github Actionsではcron式でのアクション実行に対応しているので、以下のように書くことで1日1回のプロフィール更新をさせることができます。
+
+```
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+```
