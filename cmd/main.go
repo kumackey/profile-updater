@@ -37,8 +37,19 @@ func main() {
 		os.Exit(1)
 	}
 
-	u := usecase.NewUpdateProfileUsecase(adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAtomClient{})
-	err = u.Exec(context.Background(), zennUserID, zennMaxArticles, connpassNickname, connpassMaxEvents, qiitaUserID, qiitaMaxArticles)
+	u := usecase.NewUpdateProfileUsecase(
+		adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAtomClient{},
+	)
+	input := usecase.NewUpdateProfileUseCaseInput(
+		zennUserID,
+		zennMaxArticles,
+		connpassNickname,
+		connpassMaxEvents,
+		qiitaUserID,
+		qiitaMaxArticles,
+	)
+
+	err = u.Exec(context.Background(), input)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

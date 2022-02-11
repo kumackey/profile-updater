@@ -56,22 +56,13 @@ func (m *qiitaClientMock) FetchArticleList(ctx context.Context, userID string) (
 }
 
 func TestUpdateProfileUsecase_Exec(t *testing.T) {
-	type input struct {
-		zennUserID        string
-		zennMaxArticles   int
-		connpassNickname  string
-		connpassMaxEvents int
-		qiitaUserID       string
-		qiitaMaxArticles  int
-	}
-
 	var tests = map[string]struct {
-		input            input
+		input            UpdateProfileUsecaseInput
 		retProfileIOScan *domain.Profile
 		output           error
 	}{
 		"全部の値が入っている": {
-			input: input{
+			input: UpdateProfileUsecaseInput{
 				zennUserID:        "kumackey",
 				zennMaxArticles:   5,
 				connpassNickname:  "kumackey",
@@ -86,7 +77,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			output: nil,
 		},
 		"Zennだけの値が入っている": {
-			input: input{
+			input: UpdateProfileUsecaseInput{
 				zennUserID:        "kumackey",
 				zennMaxArticles:   5,
 				connpassMaxEvents: 5,
@@ -98,7 +89,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			output: nil,
 		},
 		"Zennの値が入っているのに、プロフィールに該当する置換箇所がない": {
-			input: input{
+			input: UpdateProfileUsecaseInput{
 				zennUserID:        "kumackey",
 				zennMaxArticles:   5,
 				connpassMaxEvents: 5,
@@ -122,7 +113,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.QiitaArticleList{}, nil)
 
-			err := usecase.Exec(context.Background(), test.input.zennUserID, test.input.zennMaxArticles, test.input.connpassNickname, test.input.connpassMaxEvents, "", 0)
+			err := usecase.Exec(context.Background(), test.input)
 			assert.Equal(t, test.output, err)
 		})
 	}

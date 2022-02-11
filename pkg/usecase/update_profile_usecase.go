@@ -4,6 +4,9 @@ import (
 	"context"
 )
 
+// DefaultMaxLines はデフォルトでの最大行数
+const DefaultMaxLines = 5
+
 type UpdateProfileUsecase struct {
 	profileIO      ProfileIO
 	zennClient     ZennClient
@@ -11,26 +14,28 @@ type UpdateProfileUsecase struct {
 	qiitaClient    QiitaClient
 }
 
-// DefaultMaxLines はデフォルトでの最大行数
-const DefaultMaxLines = 5
+type UpdateProfileUsecaseInput struct {
+	zennUserID        string
+	zennMaxArticles   int
+	connpassNickname  string
+	connpassMaxEvents int
+	qiitaUserID       string
+	qiitaMaxArticles  int
+}
 
-func (u UpdateProfileUsecase) Exec(
-	ctx context.Context, zennUserID string, zennMaxArticles int,
-	connpassNickname string, connpassMaxEvents int,
-	qiitaUserID string, qiitaMaxArticles int,
-) error {
+func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUsecaseInput) error {
 	profile, err := u.profileIO.Scan()
 	if err != nil {
 		return err
 	}
 
-	if zennUserID != "" {
-		zennList, err := u.zennClient.FetchArticleList(ctx, zennUserID)
+	if input.zennUserID != "" {
+		zennList, err := u.zennClient.FetchArticleList(ctx, input.zennUserID)
 		if err != nil {
 			return err
 		}
 
-		replaceValue := zennList.SortByPublishedAt().Limit(zennMaxArticles).ToProfileMarkdown()
+		replaceValue := zennList.SortByPublishedAt().Limit(input.zennMaxArticles).ToProfileMarkdown()
 
 		profile, err = profile.ReplaceZenn(replaceValue)
 		if err != nil {
@@ -38,13 +43,13 @@ func (u UpdateProfileUsecase) Exec(
 		}
 	}
 
-	if connpassNickname != "" {
-		connpassList, err := u.connpassClient.FetchEventList(ctx, connpassNickname)
+	if input.connpassNickname != "" {
+		connpassList, err := u.connpassClient.FetchEventList(ctx, input.connpassNickname)
 		if err != nil {
 			return err
 		}
 
-		replaceValue := connpassList.SortByPublishedAt().Limit(connpassMaxEvents).ToProfileMarkdown(connpassNickname)
+		replaceValue := connpassList.SortByPublishedAt().Limit(input.connpassMaxEvents).ToProfileMarkdown(input.connpassNickname)
 
 		profile, err = profile.ReplaceConnpass(replaceValue)
 		if err != nil {
@@ -52,13 +57,13 @@ func (u UpdateProfileUsecase) Exec(
 		}
 	}
 
-	if qiitaUserID != "" {
-		connpassList, err := u.qiitaClient.FetchArticleList(ctx, qiitaUserID)
+	if input.qiitaUserID != "" {
+		connpassList, err := u.qiitaClient.FetchArticleList(ctx, input.qiitaUserID)
 		if err != nil {
 			return err
 		}
 
-		replaceValue := connpassList.SortByPublishedAt().Limit(qiitaMaxArticles).ToProfileMarkdown()
+		replaceValue := connpassList.SortByPublishedAt().Limit(input.qiitaMaxArticles).ToProfileMarkdown()
 
 		profile, err = profile.ReplaceConnpass(replaceValue)
 		if err != nil {
@@ -82,5 +87,23 @@ func NewUpdateProfileUsecase(
 		zennClient:     zennClient,
 		connpassClient: connpassClient,
 		qiitaClient:    qiitaClient,
+	}
+}
+
+func NewUpdateProfileUseCaseInput(
+	zennUserID string,
+	zennMaxArticles int,
+	connpassNickname string,
+	connpassMaxEvents int,
+	qiitaUserID string,
+	qiitaMaxArticles int,
+) UpdateProfileUsecaseInput {
+	return UpdateProfileUsecaseInput{
+		zennUserID:        zennUserID,
+		zennMaxArticles:   zennMaxArticles,
+		connpassNickname:  connpassNickname,
+		connpassMaxEvents: connpassMaxEvents,
+		qiitaUserID:       qiitaUserID,
+		qiitaMaxArticles:  qiitaMaxArticles,
 	}
 }
