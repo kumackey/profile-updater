@@ -67,7 +67,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 
 		replaceValue := connpassList.SortByPublishedAt().Limit(input.qiitaMaxArticles).ToProfileMarkdown()
 
-		profile, err = profile.ReplaceConnpass(replaceValue)
+		profile, err = profile.ReplaceQiita(replaceValue)
 		if err != nil {
 			return err
 		}

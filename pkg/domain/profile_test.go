@@ -73,3 +73,27 @@ func TestProfile_ReplaceConnpass(t *testing.T) {
 		})
 	}
 }
+
+func TestProfile_ReplaceQiita(t *testing.T) {
+	tests := map[string]struct {
+		input    *Profile
+		replaces string
+		output   *Profile
+	}{
+		"qiitaの置き換えの記述が存在する": {
+			input:    &Profile{Content: "こんにちは\n" + regexQiitaBegin + "\n書き換えられる前です\n" + regexQiitaEnd},
+			replaces: "\n書き換えました\n",
+			output: &Profile{
+				Content: "こんにちは\n" + regexQiitaBegin + "\n書き換えました\n" + regexQiitaEnd,
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			profile, err := test.input.ReplaceQiita(test.replaces)
+			assert.Nil(t, err)
+			assert.Equal(t, *test.output, *profile)
+		})
+	}
+}
