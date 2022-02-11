@@ -1,6 +1,6 @@
 # Profile Updater
 
-Zennの記事のリストを取得し、プロフィールを更新します。
+ZennやQiitaの記事、connpassのイベントのリストを取得し、プロフィールを更新します。
 
 # Get Started
 
@@ -53,6 +53,8 @@ jobs:
 | `zenn_max_articles`   | NO  | Zennの表示したい最大記事数。デフォルトは5       |
 | `connpass_nickname`   | NO  | connpassのユーザ名                 |
 | `connpass_max_events` | NO  | connpassの表示したい最大イベント数。デフォルトは5 |
+| `qiita_user_id`       | NO  | QiitaのユーザID                   |
+| `qiita_max_articles`  | NO  | Qiitaの表示したい最大記事数。デフォルトは5      |
 
 ## zenn
 
@@ -70,6 +72,15 @@ withのパラメータとして`connpass_nickname`を指定してください。
 ```text:README.md
 <!-- profile updater begin: connpass -->
 <!-- profile updater end: connpass -->
+```
+
+## qiita
+
+withのパラメータとして`qiita_user_id`を指定してください。 その上で、README.md内に以下記述を追加してください。
+
+```text:README.md
+<!-- profile updater begin: qiita -->
+<!-- profile updater end: qiita -->
 ```
 
 ## replace statement not found って言われるんやけど
