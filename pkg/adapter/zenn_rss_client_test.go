@@ -30,7 +30,7 @@ func TestZennRSSClient_FetchArticleList(t *testing.T) {
 	}
 }
 
-func TestZennRSS_FetchArticleList_Failed(t *testing.T) {
+func TestZennRSSClient_FetchArticleList_Failed(t *testing.T) {
 	//nolint:gosec // ランダム文字列を作りたいだけなので無視
 	random := strconv.Itoa(rand.Intn(100000))
 
