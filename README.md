@@ -83,10 +83,6 @@ withのパラメータとして`qiita_user_id`を指定してください。 そ
 <!-- profile updater end: qiita -->
 ```
 
-## replace statement not found って言われるんやけど
-
-README.md内に`<!-- profile updater begin: ...`の記述がないと起こります。 zennおよびconnpassを参考に、`README.md`に追記してください。
-
 ## 定期更新の仕方(おすすめ)
 
 Github Actionsではcron式でのアクション実行に対応しているので、以下のように書くことで1日1回のプロフィール更新をさせることができます。
@@ -97,3 +93,15 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 ```
+
+## replace statement not found って言われるんやけど
+
+README.md内に`<!-- profile updater begin: ...`の記述がないと起こります。 各説明を参考に、`README.md`に追記してください。
+
+## この機能くれ！
+
+issueかプルリクエストかSNSでのメッセージをお待ちしてます。
+
+## おい、バグってんぞ！
+
+issueかプルリクエストかSNSでのメッセージをお待ちしてます。
