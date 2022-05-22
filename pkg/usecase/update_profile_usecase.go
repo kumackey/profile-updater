@@ -60,12 +60,12 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 	}
 
 	if input.qiitaUserID != "" {
-		connpassList, err := u.qiitaClient.FetchArticleList(ctx, input.qiitaUserID)
+		qiitaArticleList, err := u.qiitaClient.FetchArticleList(ctx, input.qiitaUserID, input.qiitaMaxArticles)
 		if err != nil {
 			return err
 		}
 
-		replaceValue := connpassList.SortByPublishedAt().Limit(input.qiitaMaxArticles).ToProfileMarkdown()
+		replaceValue := qiitaArticleList.SortByPublishedAt().ToProfileMarkdown()
 
 		profile, err = profile.ReplaceQiita(replaceValue)
 		if err != nil {

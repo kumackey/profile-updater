@@ -71,30 +71,3 @@ func TestQiitaArticleList_SortByPublishedAt(t *testing.T) {
 		})
 	}
 }
-
-func TestQiitaArticleList_Limit(t *testing.T) {
-	tests := map[string]struct {
-		input  QiitaArticleList
-		limit  int
-		output QiitaArticleList
-	}{
-		"記事数を制限できる": {
-			input: QiitaArticleList{
-				&qiitaArticle{title: "first"},
-				&qiitaArticle{title: "second"},
-				&qiitaArticle{title: "third"},
-			},
-			limit: 1,
-			output: QiitaArticleList{
-				&qiitaArticle{title: "first"},
-			},
-		},
-	}
-
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			profile := test.input.Limit(test.limit)
-			assert.Equal(t, test.output, profile)
-		})
-	}
-}

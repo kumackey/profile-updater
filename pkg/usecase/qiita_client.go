@@ -14,5 +14,5 @@ var (
 )
 
 type QiitaClient interface {
-	FetchArticleList(ctx context.Context, userID string) (domain.QiitaArticleList, error)
+	FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error)
 }

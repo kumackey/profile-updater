@@ -23,7 +23,7 @@ func TestQiitaAPIClient_FetchArticleList(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			qiita := QiitaAPIClient{}
-			list, err := qiita.FetchArticleList(context.Background(), test.userID)
+			list, err := qiita.FetchArticleList(context.Background(), test.userID, 0)
 			assert.Nil(t, err)
 			assert.GreaterOrEqual(t, len(list), test.articleCount)
 		})
@@ -45,7 +45,7 @@ func TestQiitaAPIClient_FetchArticleList_Failed(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			qiita := QiitaAPIClient{}
-			_, err := qiita.FetchArticleList(context.Background(), test.userID)
+			_, err := qiita.FetchArticleList(context.Background(), test.userID, 0)
 			assert.Equal(t, usecase.ErrQiitaAuthorNotFound, err)
 		})
 	}

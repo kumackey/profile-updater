@@ -7,6 +7,7 @@ import (
 	"github.com/kumackey/profile-updater/pkg/usecase"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -22,8 +23,8 @@ type qiitaAPIItem struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func (c QiitaAPIClient) FetchArticleList(ctx context.Context, userID string) (domain.QiitaArticleList, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://qiita.com/api/v2/items?per_page=10&query=qiita+user:"+userID, http.NoBody)
+func (c QiitaAPIClient) FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://qiita.com/api/v2/items?per_page="+strconv.Itoa(limit)+"&query=qiita+user:"+userID, http.NoBody)
 	if err != nil {
 		return nil, err
 	}

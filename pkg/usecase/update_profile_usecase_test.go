@@ -49,8 +49,8 @@ type qiitaClientMock struct {
 	mock.Mock
 }
 
-func (m *qiitaClientMock) FetchArticleList(ctx context.Context, userID string) (domain.QiitaArticleList, error) {
-	ret := m.Called(ctx, userID)
+func (m *qiitaClientMock) FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error) {
+	ret := m.Called(ctx, userID, limit)
 
 	return ret.Get(0).(domain.QiitaArticleList), ret.Error(1)
 }
@@ -72,7 +72,8 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			},
 			retProfileIOScan: &domain.Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->" +
-					"<!-- profile updater begin: connpass --><!-- profile updater end: connpass -->",
+					"<!-- profile updater begin: connpass --><!-- profile updater end: connpass -->" +
+					"<!-- profile updater begin: qiita --><!-- profile updater end: qiita -->",
 			},
 			output: nil,
 		},
@@ -111,7 +112,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.ZennArticleList{}, nil)
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(domain.ConpassEventList{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
-			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.QiitaArticleList{}, nil)
+			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).Return(domain.QiitaArticleList{}, nil)
 
 			err := usecase.Exec(context.Background(), test.input)
 			assert.Equal(t, test.output, err)
