@@ -38,7 +38,7 @@ func main() {
 	}
 
 	u := usecase.NewUpdateProfileUsecase(
-		adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAtomClient{},
+		adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAPIClient{},
 	)
 	input := usecase.NewUpdateProfileUseCaseInput(
 		zennUserID,
