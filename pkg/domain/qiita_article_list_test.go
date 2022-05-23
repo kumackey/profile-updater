@@ -20,6 +20,7 @@ func TestQiitaArticleList_ToProfileMarkdown(t *testing.T) {
 				&qiitaArticle{
 					title:       "記事の例1",
 					link:        "https://example.com/1",
+					lgtms:       5,
 					publishedAt: publishedAt1,
 				},
 				&qiitaArticle{
@@ -29,7 +30,7 @@ func TestQiitaArticleList_ToProfileMarkdown(t *testing.T) {
 				},
 			},
 
-			output: "\n- Feb 1 [記事の例1](https://example.com/1)\n- Feb 2 [記事の例2](https://example.com/2)\n",
+			output: "\n- Feb 1, 5LGTM [記事の例1](https://example.com/1)\n- Feb 2 [記事の例2](https://example.com/2)\n",
 		},
 	}
 
