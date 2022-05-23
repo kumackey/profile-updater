@@ -21,7 +21,11 @@ type qiitaUserFeed struct {
 	} `xml:"entry"`
 }
 
-func (r QiitaAtomClient) FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error) {
+func (r QiitaAtomClient) FetchArticleList(
+	ctx context.Context,
+	userID string,
+	limit int,
+) (domain.QiitaArticleList, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://qiita.com/"+userID+"/feed", http.NoBody)
 	if err != nil {
 		return nil, err

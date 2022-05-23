@@ -49,7 +49,11 @@ type qiitaClientMock struct {
 	mock.Mock
 }
 
-func (m *qiitaClientMock) FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error) {
+func (m *qiitaClientMock) FetchArticleList(
+	ctx context.Context,
+	userID string,
+	limit int,
+) (domain.QiitaArticleList, error) {
 	ret := m.Called(ctx, userID, limit)
 
 	return ret.Get(0).(domain.QiitaArticleList), ret.Error(1)
@@ -112,7 +116,8 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.ZennArticleList{}, nil)
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(domain.ConpassEventList{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
-			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).Return(domain.QiitaArticleList{}, nil)
+			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).
+				Return(domain.QiitaArticleList{}, nil)
 
 			err := usecase.Exec(context.Background(), test.input)
 			assert.Equal(t, test.output, err)
