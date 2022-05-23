@@ -24,7 +24,8 @@ type qiitaAPIItem struct {
 }
 
 func (c QiitaAPIClient) FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://qiita.com/api/v2/items?per_page="+strconv.Itoa(limit)+"&query=qiita+user:"+userID, http.NoBody)
+	// https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://qiita.com/api/v2/items?per_page="+strconv.Itoa(limit)+"&query=user:"+userID, http.NoBody)
 	if err != nil {
 		return nil, err
 	}
@@ -58,14 +59,14 @@ func (c QiitaAPIClient) FetchArticleList(ctx context.Context, userID string, lim
 		return nil, err
 	}
 
+	if len(data) == 0 {
+		// 投稿がゼロの可能性も考慮する必要があるが、そんなユーザはこのActionsを使わない理論により無視する
+		return nil, usecase.ErrQiitaAuthorNotFound
+	}
+
 	list := make(domain.QiitaArticleList, 0, len(data))
-	for _ = range data {
-		//publishedAt, err := time.Parse(time.RFC3339, atom.Entries[i].Published)
-		//if err != nil {
-		//	return nil, err
-		//}
-		//
-		//list = append(list, domain.NewQiitaArticle(atom.Entries[i].Title, atom.Entries[i].URL, publishedAt))
+	for i := range data {
+		list = append(list, domain.NewQiitaArticle(data[i].Title, data[i].URL, data[i].LikeCount, data[i].CreatedAt))
 	}
 
 	return list, nil

@@ -64,7 +64,7 @@ func (r QiitaAtomClient) FetchArticleList(ctx context.Context, userID string, li
 			return nil, err
 		}
 
-		list = append(list, domain.NewQiitaArticle(atom.Entries[i].Title, atom.Entries[i].URL, publishedAt))
+		list = append(list, domain.NewQiitaArticle(atom.Entries[i].Title, atom.Entries[i].URL, 0, publishedAt))
 	}
 
 	return list, nil
