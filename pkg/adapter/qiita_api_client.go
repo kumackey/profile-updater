@@ -29,36 +29,8 @@ func (c QiitaAPIClient) FetchArticleList(
 	userID string,
 	limit int,
 ) (domain.QiitaArticleList, error) {
-	resp, err := c.getItems(ctx, &http.Client{}, userID, limit)
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode != http.StatusOK {
-		if http.StatusInternalServerError < resp.StatusCode {
-			return nil, usecase.ErrQiitaInternalServerError
-		}
+	client := &http.Client{}
 
-		if resp.StatusCode == http.StatusNotFound {
-			return nil, usecase.ErrQiitaAuthorNotFound
-		}
-
-		return nil, usecase.ErrQiitaUnknownError
-	}
-
-	list, err := c.convertArticleList(resp)
-	if err != nil {
-		return nil, err
-	}
-
-	return list, nil
-}
-
-func (c QiitaAPIClient) getItems(
-	ctx context.Context,
-	client *http.Client,
-	userID string,
-	limit int,
-) (*http.Response, error) {
 	// https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
 	url := "https://qiita.com/api/v2/items?per_page=" + strconv.Itoa(limit) + "&query=user:" + userID
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
@@ -72,10 +44,18 @@ func (c QiitaAPIClient) getItems(
 	}
 	defer func() { _ = resp.Body.Close() }()
 
-	return resp, nil
-}
+	if resp.StatusCode != http.StatusOK {
+		if http.StatusInternalServerError < resp.StatusCode {
+			return nil, usecase.ErrQiitaInternalServerError
+		}
 
-func (c QiitaAPIClient) convertArticleList(resp *http.Response) (domain.QiitaArticleList, error) {
+		if resp.StatusCode == http.StatusNotFound {
+			return nil, usecase.ErrQiitaAuthorNotFound
+		}
+
+		return nil, usecase.ErrQiitaUnknownError
+	}
+
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
