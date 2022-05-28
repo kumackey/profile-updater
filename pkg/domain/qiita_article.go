@@ -18,7 +18,7 @@ func (z *qiitaArticle) toMarkdown() string {
 	text := "- " + publishedAt
 
 	if z.lgtms != 0 {
-		text += ", " + strconv.Itoa(z.lgtms) + "LGTM"
+		text += ", **" + strconv.Itoa(z.lgtms) + " LGTM**"
 	}
 
 	text += " [" + z.title + "](" + z.link + ")"

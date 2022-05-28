@@ -10,6 +10,7 @@ import (
 	"github.com/kumackey/profile-updater/pkg/usecase"
 )
 
+// Deprecated: APIClientを使用してる
 type QiitaAtomClient struct{}
 
 type qiitaUserFeed struct {
