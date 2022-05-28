@@ -20,6 +20,7 @@ func TestQiitaArticleList_ToProfileMarkdown(t *testing.T) {
 				&qiitaArticle{
 					title:       "記事の例1",
 					link:        "https://example.com/1",
+					lgtms:       5,
 					publishedAt: publishedAt1,
 				},
 				&qiitaArticle{
@@ -29,7 +30,7 @@ func TestQiitaArticleList_ToProfileMarkdown(t *testing.T) {
 				},
 			},
 
-			output: "\n- Feb 1 [記事の例1](https://example.com/1)\n- Feb 2 [記事の例2](https://example.com/2)\n",
+			output: "\n- Feb 1, **5 LGTM** [記事の例1](https://example.com/1)\n- Feb 2 [記事の例2](https://example.com/2)\n",
 		},
 	}
 
@@ -67,33 +68,6 @@ func TestQiitaArticleList_SortByPublishedAt(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			profile := test.input.SortByPublishedAt()
-			assert.Equal(t, test.output, profile)
-		})
-	}
-}
-
-func TestQiitaArticleList_Limit(t *testing.T) {
-	tests := map[string]struct {
-		input  QiitaArticleList
-		limit  int
-		output QiitaArticleList
-	}{
-		"記事数を制限できる": {
-			input: QiitaArticleList{
-				&qiitaArticle{title: "first"},
-				&qiitaArticle{title: "second"},
-				&qiitaArticle{title: "third"},
-			},
-			limit: 1,
-			output: QiitaArticleList{
-				&qiitaArticle{title: "first"},
-			},
-		},
-	}
-
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			profile := test.input.Limit(test.limit)
 			assert.Equal(t, test.output, profile)
 		})
 	}

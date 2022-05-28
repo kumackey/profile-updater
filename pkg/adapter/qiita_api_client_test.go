@@ -10,27 +10,27 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestQiitaAtomClient_FetchArticleList(t *testing.T) {
+func TestQiitaAPIClient_FetchArticleList(t *testing.T) {
 	tests := map[string]struct {
-		userID string
-		limit  int
+		userID       string
+		articleCount int
 	}{
-		"kumackeyは3記事は書いている": {
-			"kumackey", 3,
+		"kumackeyは4記事は書いている": {
+			"kumackey", 4,
 		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			qiita := QiitaAtomClient{}
-			list, err := qiita.FetchArticleList(context.Background(), test.userID, test.limit)
+			qiita := QiitaAPIClient{}
+			list, err := qiita.FetchArticleList(context.Background(), test.userID, test.articleCount)
 			assert.Nil(t, err)
-			assert.Equal(t, len(list), test.limit)
+			assert.Equal(t, len(list), test.articleCount)
 		})
 	}
 }
 
-func TestQiitaAtomClient_FetchArticleList_Failed(t *testing.T) {
+func TestQiitaAPIClient_FetchArticleList_Failed(t *testing.T) {
 	//nolint:gosec // ランダム文字列を作りたいだけなので無視
 	random := strconv.Itoa(rand.Intn(100000))
 
@@ -44,8 +44,8 @@ func TestQiitaAtomClient_FetchArticleList_Failed(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			qiita := QiitaAtomClient{}
-			_, err := qiita.FetchArticleList(context.Background(), test.userID, 0)
+			qiita := QiitaAPIClient{}
+			_, err := qiita.FetchArticleList(context.Background(), test.userID, 10)
 			assert.Equal(t, usecase.ErrQiitaAuthorNotFound, err)
 		})
 	}
