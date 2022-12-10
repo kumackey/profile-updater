@@ -69,9 +69,9 @@ linters-settings:
   nestif:
     min-complexity: 5
   staticcheck:
-    go: "1.17"
+    go: "1.18"
   stylecheck:
-    go: "1.17"
+    go: "1.18"
 
 issues:
   max-issues-per-linter: 0
