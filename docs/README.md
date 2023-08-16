@@ -57,3 +57,9 @@ jobs:
 `README.md`を確認すると、Qiitaの記事リストが表示されているはずです。
 
 ![](../res/docs_readme_result.png)
+
+ちなみに、以下で記述した設定により「1日1回Github Actionsを実行する」という仕組みになっているので、今後は手動でGitHub Actionsの実行をする必要はありません。
+```
+  schedule:
+    - cron: '0 0 * * *'
+```
