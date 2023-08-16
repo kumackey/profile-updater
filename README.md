@@ -1,6 +1,11 @@
 # Profile Updater
 
-ZennやQiitaの記事、connpassのイベントのリストを取得し、プロフィールを更新します。
+ZennやQiitaの記事、connpassのイベントのリストを取得し、Githubのプロフィールを更新します。
+
+# 成果例
+
+![](./res/readme_output.png)
+![](./res/readme_result.png)
 
 # Get Started
 
