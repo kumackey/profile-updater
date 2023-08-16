@@ -44,15 +44,15 @@ jobs:
           git push origin main
 ```
 
-![](./res/docs_workflows_yml.png)
+![](../res/docs_workflows_yml.png)
 
 ## GitHub Actionsの実行
 
-![](./res/docs_exec_github_actions.png)
+![](../res/docs_exec_github_actions.png)
 
 以下のように緑マークの表示がされれば成功です。
-![](./res/docs_github_actions_done.png)
+![](../res/docs_github_actions_done.png)
 
 README.mdを確認すると、Qiitaの記事リストが表示されているはずです。
 
-![](./res/docs_readme_result.png)
+![](../res/docs_readme_result.png)
