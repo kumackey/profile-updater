@@ -5,13 +5,14 @@
 ## README.mdの作成
 
 [プロフィールの README を管理する](https://docs.github.com/ja/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/managing-your-profile-readme#adding-a-profile-readme)を参考に、プロフィール用リポジトリに`README.md`を作成してください。
-要は<username>/<username>のリポジトリを作って、`README.md`を作成しておくだけです。
+要はusername/usernameのリポジトリを作って、`README.md`を作成しておくだけです。
 `README.md`内で記事リストを表示したい場所に以下記述を入れてください。
 
 ```text:README.md
 # Qiita Articles
 
 <!-- profile updater begin: qiita -->
+(ここにリストが表示されます。この記述は後で更新され消えます)
 <!-- profile updater end: qiita -->
 ```
 
@@ -53,6 +54,6 @@ jobs:
 以下のように緑マークの表示がされれば成功です。
 ![](../res/docs_github_actions_done.png)
 
-README.mdを確認すると、Qiitaの記事リストが表示されているはずです。
+`README.md`を確認すると、Qiitaの記事リストが表示されているはずです。
 
 ![](../res/docs_readme_result.png)
