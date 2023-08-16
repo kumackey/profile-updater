@@ -17,7 +17,7 @@
 
 ## GitHub Actionsの設定
 
-`.github/workflows/`に以下のようなYAMLファイルを置きます。
+`.github/workflows/`に以下のようなYAMLファイルを置きます。ファイル名は何でも良いですが、ここでは`profile-updater.yml`としておきます。
 
 ```yaml:.github/workflows/profile-updater.yml
 name: profile updater
