@@ -2,6 +2,10 @@ package usecase
 
 import (
 	"context"
+	"fmt"
+	"time"
+
+	"github.com/kumackey/profile-updater/pkg/domain"
 )
 
 // DefaultMaxLines はデフォルトでの最大行数
@@ -44,19 +48,24 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 	}
 
 	if input.connpassNickname != "" {
-		connpassList, err := u.connpassClient.FetchEventList(ctx, input.connpassNickname)
-		if err != nil {
-			return err
-		}
+		profile, err = func(input UpdateProfileUsecaseInput, profile *domain.Profile) (*domain.Profile, error) {
+			// 2024年5月23日以降は廃止される
+			if time.Now().After(time.Date(2024, 5, 23, 0, 0, 0, 0, time.UTC)) {
+				return profile, fmt.Errorf("connpassのサポートは廃止しました。詳細はREADMEをご確認ください: https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass")
+			}
+			fmt.Println("WARNING: connpassのサポートは2024年5月23日以降に廃止されます。詳細はREADMEをご確認ください: https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass")
 
-		replaceValue := connpassList.SortByPublishedAt().
-			Limit(input.connpassMaxEvents).
-			ToProfileMarkdown(input.connpassNickname)
+			connpassList, err := u.connpassClient.FetchEventList(ctx, input.connpassNickname)
+			if err != nil {
+				return profile, err
+			}
 
-		profile, err = profile.ReplaceConnpass(replaceValue)
-		if err != nil {
-			return err
-		}
+			replaceValue := connpassList.SortByPublishedAt().
+				Limit(input.connpassMaxEvents).
+				ToProfileMarkdown(input.connpassNickname)
+
+			return profile.ReplaceConnpass(replaceValue)
+		}(input, profile)
 	}
 
 	if input.qiitaUserID != "" {
