@@ -49,11 +49,13 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 
 	if input.connpassNickname != "" {
 		profile, err = func(input UpdateProfileUsecaseInput, profile *domain.Profile) (*domain.Profile, error) {
-			// 2024年5月23日以降は廃止される
+			const readmeURL = "https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass"
+
 			if time.Now().After(time.Date(2024, 5, 23, 0, 0, 0, 0, time.UTC)) {
-				return profile, fmt.Errorf("connpassのサポートは廃止しました。詳細はREADMEをご確認ください: https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass")
+				return profile, fmt.Errorf("connpassのサポートは廃止しました。詳細はREADMEをご確認ください: %s", readmeURL)
 			}
-			fmt.Println("WARNING: connpassのサポートは2024年5月23日以降に廃止されます。詳細はREADMEをご確認ください: https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass")
+
+			fmt.Printf("WARNING: connpassのサポートは2024年5月23日以降に廃止されます。詳細はREADMEをご確認ください: %s\n", readmeURL)
 
 			connpassList, err := u.connpassClient.FetchEventList(ctx, input.connpassNickname)
 			if err != nil {
