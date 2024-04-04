@@ -1,6 +1,6 @@
 module github.com/kumackey/profile-updater
 
-go 1.18
+go 1.20
 
 require (
 	github.com/stretchr/testify v1.9.0
