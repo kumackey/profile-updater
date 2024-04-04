@@ -52,7 +52,13 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 			const readmeURL = "https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass"
 
 			if time.Now().After(time.Date(2024, 5, 23, 0, 0, 0, 0, time.UTC)) {
-				return profile, fmt.Errorf("connpassのサポートは廃止しました。詳細はREADMEをご確認ください: %s", readmeURL)
+				fmt.Printf("WARNING: connpassのサポートは2024年5月23日を以て廃止されました。\n"+
+					"connpassの処理はスキップされます。\n"+
+					"詳細はREADMEをご確認ください: %s\n", readmeURL,
+				)
+
+				// skip
+				return profile, nil
 			}
 
 			fmt.Printf("WARNING: connpassのサポートは2024年5月23日以降に廃止されます。詳細はREADMEをご確認ください: %s\n", readmeURL)
