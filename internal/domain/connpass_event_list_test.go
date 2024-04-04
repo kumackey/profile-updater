@@ -10,7 +10,6 @@ import (
 func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
 	publishedAt1, _ := time.Parse(time.RFC3339, "2022-02-01T14:59:00+00:00")
 	publishedAt2, _ := time.Parse(time.RFC3339, "2022-02-01T15:00:00+00:00")
-	organizer := "organizer"
 
 	tests := map[string]struct {
 		input  ConpassEventList
@@ -18,16 +17,16 @@ func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
 	}{
 		"マークダウンに変換できる": {
 			input: ConpassEventList{
-				&ConnpassEvent{title: "イベントの例1", link: "https://example.com/1", ownerNickname: organizer, startedAt: publishedAt1},
-				&ConnpassEvent{title: "イベントの例2", link: "https://example.com/2", ownerNickname: "unkwown", startedAt: publishedAt2},
+				&ConnpassEvent{title: "イベントの例1", link: "https://example.com/1", startedAt: publishedAt1},
+				&ConnpassEvent{title: "イベントの例2", link: "https://example.com/2", startedAt: publishedAt2},
 			},
-			output: "\n- Feb 1 **Organizer** [イベントの例1](https://example.com/1)\n- Feb 2 [イベントの例2](https://example.com/2)\n",
+			output: "\n- Feb 1 [イベントの例1](https://example.com/1)\n- Feb 2 [イベントの例2](https://example.com/2)\n",
 		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			markdown := test.input.ToProfileMarkdown(organizer)
+			markdown := test.input.ToProfileMarkdown()
 			assert.Equal(t, test.output, markdown)
 		})
 	}

@@ -66,7 +66,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 
 			replaceValue := connpassList.SortByPublishedAt().
 				Limit(input.connpassMaxEvents).
-				ToProfileMarkdown(input.connpassNickname)
+				ToProfileMarkdown()
 
 			return profile.ReplaceConnpass(replaceValue)
 		}(input, profile)

@@ -4,10 +4,10 @@ import "sort"
 
 type ConpassEventList []*ConnpassEvent
 
-func (l ConpassEventList) ToProfileMarkdown(userNickname string) string {
+func (l ConpassEventList) ToProfileMarkdown() string {
 	profileMarkdown := "\n"
 	for _, event := range l {
-		profileMarkdown = profileMarkdown + event.toMarkdown(userNickname) + "\n"
+		profileMarkdown = profileMarkdown + event.ToMarkdown() + "\n"
 	}
 
 	return profileMarkdown
