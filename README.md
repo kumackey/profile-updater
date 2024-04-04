@@ -47,6 +47,8 @@ withのパラメータとして`zenn_user_id`を指定してください。 そ�
 ## connpass
 
 <B>イベントサーチAPIの無料提供が廃止されるため、2024年5月23日(木)以降にconnpassのサポートを終了します。</B>
+2024年5月23日(木)以降ではconnpass関連の処理はスキップされます。
+
 ref: https://connpass.com/about/api/
 
 withのパラメータとして`connpass_nickname`を指定してください。 その上で、`README.md`内に以下記述を追加してください。
