@@ -11,7 +11,7 @@ ZennやQiitaの記事、connpassのイベントのリストを取得し、Github
 
 以下参照。分かりにくいところあったら是非フィードバックください🙏
 
-https://github.com/kumackey/profile-updater/tree/main/docs
+https://github.com/kumackey/profile-updater/blob/main/docs/README.md
 
 # How to use
 
@@ -64,9 +64,9 @@ Github Actionsではcron式でのアクション実行に対応しているの�
 
 ```
 on:
-schedule:
-- cron: '0 0 * * *'
-workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 ```
 
 ## replace statement not found って言われるんやけど
