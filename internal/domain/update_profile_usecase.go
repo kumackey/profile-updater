@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -11,9 +12,9 @@ const DefaultMaxLines = 5
 
 type UpdateProfileUsecase struct {
 	profileIO      ProfileIO
-	zennClient     ZennClient
 	connpassClient ConnpassClient
 	qiitaClient    QiitaClient
+	rssClient      RssClient
 }
 
 type UpdateProfileUsecaseInput struct {
@@ -32,16 +33,20 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 	}
 
 	if input.zennUserID != "" {
-		zennList, err := u.zennClient.FetchArticleList(ctx, input.zennUserID)
+		// https://zenn.dev/zenn/articles/zenn-feed-rss
+		zu, err := url.Parse("https://zenn.dev/")
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to parse zenn url: %w", err)
 		}
 
-		replaceValue := ToMarkdown(zennList, input.zennMaxArticles)
-
-		profile, err = profile.ReplaceZenn(replaceValue)
+		items, err := u.rssClient.FetchItems(ctx, zu.JoinPath(input.zennUserID, "feed"))
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to fetch zenn items: %w", err)
+		}
+
+		profile, err = profile.ReplaceZenn(ToMarkdown(items, input.zennMaxArticles))
+		if err != nil {
+			return fmt.Errorf("failed to replace zenn: %w", err)
 		}
 	}
 
@@ -96,13 +101,13 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 }
 
 func NewUpdateProfileUsecase(
-	profileIO ProfileIO, zennClient ZennClient, connpassClient ConnpassClient, qiitaClient QiitaClient,
+	profileIO ProfileIO, connpassClient ConnpassClient, qiitaClient QiitaClient, rssClient RssClient,
 ) UpdateProfileUsecase {
 	return UpdateProfileUsecase{
 		profileIO:      profileIO,
-		zennClient:     zennClient,
 		connpassClient: connpassClient,
 		qiitaClient:    qiitaClient,
+		rssClient:      rssClient,
 	}
 }
 

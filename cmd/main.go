@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"strconv"
 
@@ -38,7 +39,10 @@ func main() {
 	}
 
 	u := domain.NewUpdateProfileUsecase(
-		adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAPIClient{},
+		adapter.ReadmeFileOS{},
+		adapter.ConnpassAPIClient{},
+		adapter.QiitaAPIClient{},
+		adapter.NewRssClient(http.DefaultClient),
 	)
 	input := domain.NewUpdateProfileUseCaseInput(
 		zennUserID,
