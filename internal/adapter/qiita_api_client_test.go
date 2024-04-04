@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/kumackey/profile-updater/pkg/usecase"
+	"github.com/kumackey/profile-updater/internal/usecase"
 	"github.com/stretchr/testify/assert"
 )
 

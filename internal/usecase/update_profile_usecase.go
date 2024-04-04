@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kumackey/profile-updater/pkg/domain"
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 // DefaultMaxLines はデフォルトでの最大行数

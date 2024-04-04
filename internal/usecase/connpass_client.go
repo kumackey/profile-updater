@@ -3,7 +3,7 @@ package usecase
 import (
 	"context"
 
-	"github.com/kumackey/profile-updater/pkg/domain"
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 type ConnpassClient interface {

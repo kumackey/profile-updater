@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/kumackey/profile-updater/pkg/domain"
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 var (

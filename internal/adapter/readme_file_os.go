@@ -3,7 +3,7 @@ package adapter
 import (
 	"os"
 
-	"github.com/kumackey/profile-updater/pkg/domain"
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 const (
