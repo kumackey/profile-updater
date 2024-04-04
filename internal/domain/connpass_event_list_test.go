@@ -1,33 +1,29 @@
 package domain
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
-	publishedAt1, _ := time.Parse(time.RFC3339, "2022-02-01T14:59:00+00:00")
-	publishedAt2, _ := time.Parse(time.RFC3339, "2022-02-01T15:00:00+00:00")
-
 	tests := map[string]struct {
-		input  []ConnpassEvent
+		events []ConnpassEvent
 		limit  int
 		output string
 	}{
-		"マークダウンに変換できる": {
-			input: []ConnpassEvent{
-				{title: "イベントの例1", link: "https://example.com/1", startedAt: publishedAt1},
-				{title: "イベントの例2", link: "https://example.com/2", startedAt: publishedAt2},
+		"マークダウンに変換できること": {
+			events: []ConnpassEvent{
+				connpass("イベントの例1", "https://example.com/1", "2022-02-01T14:59:00+00:00"),
+				connpass("イベントの例2", "https://example.com/2", "2022-02-01T15:00:00+00:00"),
 			},
 			limit:  5,
 			output: "\n- Feb 2 [イベントの例2](https://example.com/2)\n- Feb 1 [イベントの例1](https://example.com/1)\n",
 		},
-		"イベント数を制限": {
-			input: []ConnpassEvent{
-				{title: "イベントの例1", link: "https://example.com/1", startedAt: publishedAt1},
-				{title: "イベントの例2", link: "https://example.com/2", startedAt: publishedAt2},
+		"イベント数を制限できること": {
+			events: []ConnpassEvent{
+				connpass("イベントの例1", "https://example.com/1", "2022-02-01T14:59:00+00:00"),
+				connpass("イベントの例2", "https://example.com/2", "2022-02-01T15:00:00+00:00"),
 			},
 			limit:  1,
 			output: "\n- Feb 2 [イベントの例2](https://example.com/2)\n",
@@ -36,8 +32,16 @@ func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			markdown := ToMarkdown(test.input, test.limit)
+			markdown := ToMarkdown(test.events, test.limit)
 			assert.Equal(t, test.output, markdown)
 		})
 	}
+}
+
+func connpass(title string, link string, startedAt string) ConnpassEvent {
+	sa, err := time.Parse(time.RFC3339, startedAt)
+	if err != nil {
+		panic("connpass, time.Parse failed")
+	}
+	return ConnpassEvent{title: title, link: link, startedAt: sa}
 }
