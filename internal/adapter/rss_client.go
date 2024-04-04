@@ -19,10 +19,10 @@ func NewRssClient(client *http.Client) RSSClient {
 	return RSSClient{client: client}
 }
 
-func (r RSSClient) FetchItems(ctx context.Context, url *url.URL) ([]domain.RssItem, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), http.NoBody)
+func (r RSSClient) FetchItems(ctx context.Context, u *url.URL) ([]domain.RssItem, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), http.NoBody)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
 	resp, err := r.client.Do(req)
