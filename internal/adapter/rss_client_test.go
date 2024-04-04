@@ -13,7 +13,7 @@ import (
 
 func TestRSSClient_FetchItems(t *testing.T) {
 	tests := map[string]struct {
-		url       *url.URL
+		rssURL    *url.URL
 		wantCount int
 	}{
 		"kumackeyは8記事以上書いていること": {
@@ -24,7 +24,7 @@ func TestRSSClient_FetchItems(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			c := RSSClient{&http.Client{}}
-			items, err := c.FetchItems(context.Background(), test.url)
+			items, err := c.FetchItems(context.Background(), test.rssURL)
 			assert.Nil(t, err)
 			assert.GreaterOrEqual(t, len(items), test.wantCount)
 		})
@@ -41,7 +41,7 @@ func mustURL(v string) *url.URL {
 
 func TestRSSClient_FetchItems_Failed(t *testing.T) {
 	tests := map[string]struct {
-		url *url.URL
+		rssURL *url.URL
 	}{
 		"適当なユーザ名ではフィードが発見できないこと": {
 			mustURL("https://zenn.dev/invalidinvalidusersampletest/feed"),
@@ -51,7 +51,7 @@ func TestRSSClient_FetchItems_Failed(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			c := RSSClient{&http.Client{}}
-			_, err := c.FetchItems(context.Background(), test.url)
+			_, err := c.FetchItems(context.Background(), test.rssURL)
 			assert.Equal(t, domain.ErrRssNotFound, err)
 		})
 	}

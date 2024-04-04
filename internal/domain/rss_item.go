@@ -34,5 +34,5 @@ var (
 )
 
 type RssClient interface {
-	FetchItems(ctx context.Context, url *url.URL) ([]RssItem, error)
+	FetchItems(ctx context.Context, u *url.URL) ([]RssItem, error)
 }

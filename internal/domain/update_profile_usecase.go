@@ -101,13 +101,13 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 }
 
 func NewUpdateProfileUsecase(
-	profileIO ProfileIO, connpassClient ConnpassClient, qiitaClient QiitaClient, RssClient RssClient,
+	profileIO ProfileIO, connpassClient ConnpassClient, qiitaClient QiitaClient, rssClient RssClient,
 ) UpdateProfileUsecase {
 	return UpdateProfileUsecase{
 		profileIO:      profileIO,
 		connpassClient: connpassClient,
 		qiitaClient:    qiitaClient,
-		rssClient:      RssClient,
+		rssClient:      rssClient,
 	}
 }
 

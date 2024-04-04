@@ -53,8 +53,8 @@ type rssClientMock struct {
 	mock.Mock
 }
 
-func (m *rssClientMock) FetchItems(ctx context.Context, url *url.URL) ([]RssItem, error) {
-	ret := m.Called(ctx, url)
+func (m *rssClientMock) FetchItems(ctx context.Context, u *url.URL) ([]RssItem, error) {
+	ret := m.Called(ctx, u)
 
 	return ret.Get(0).([]RssItem), ret.Error(1)
 }

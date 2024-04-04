@@ -3,8 +3,10 @@ package adapter
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 
@@ -31,8 +33,16 @@ func (c QiitaAPIClient) FetchArticleList(
 	client := &http.Client{}
 
 	// https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
-	url := "https://qiita.com/api/v2/items?per_page=" + strconv.Itoa(limit) + "&query=user:" + userID
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
+	u, err := url.Parse("https://qiita.com/api/v2/items")
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse qiita url: %w", err)
+	}
+	q := u.Query()
+	q.Set("per_page", strconv.Itoa(limit))
+	q.Set("query", "user:"+userID)
+	u.RawQuery = q.Encode()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), http.NoBody)
 	if err != nil {
 		return nil, err
 	}
