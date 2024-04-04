@@ -51,10 +51,10 @@ func (m *qiitaClientMock) FetchArticleList(
 	ctx context.Context,
 	userID string,
 	limit int,
-) (QiitaArticleList, error) {
+) ([]QiitaArticle, error) {
 	ret := m.Called(ctx, userID, limit)
 
-	return ret.Get(0).(QiitaArticleList), ret.Error(1)
+	return ret.Get(0).([]QiitaArticle), ret.Error(1)
 }
 
 func TestUpdateProfileUsecase_Exec(t *testing.T) {
@@ -115,7 +115,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return([]ConnpassEvent{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).
-				Return(QiitaArticleList{}, nil)
+				Return([]QiitaArticle{}, nil)
 
 			err := usecase.Exec(context.Background(), test.input)
 			assert.Equal(t, test.output, err)

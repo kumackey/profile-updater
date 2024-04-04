@@ -2,16 +2,7 @@ package domain
 
 import "sort"
 
-type QiitaArticleList []*qiitaArticle
-
-func (l QiitaArticleList) ToProfileMarkdown() string {
-	profileMarkdown := "\n"
-	for _, article := range l {
-		profileMarkdown = profileMarkdown + article.toMarkdown() + "\n"
-	}
-
-	return profileMarkdown
-}
+type QiitaArticleList []*QiitaArticle
 
 func (l QiitaArticleList) SortByPublishedAt() QiitaArticleList {
 	sort.Slice(l, func(i, j int) bool {

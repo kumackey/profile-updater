@@ -79,7 +79,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 			return err
 		}
 
-		replaceValue := qiitaArticleList.SortByPublishedAt().ToProfileMarkdown()
+		replaceValue := ToMarkdown(qiitaArticleList, input.qiitaMaxArticles)
 
 		profile, err = profile.ReplaceQiita(replaceValue)
 		if err != nil {

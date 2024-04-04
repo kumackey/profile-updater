@@ -18,6 +18,6 @@ func (z ConnpassEvent) SortOrder() int64 {
 	return z.startedAt.Unix()
 }
 
-func NewConpassEvent(title, link string, startedAt time.Time) ConnpassEvent {
+func NewConnpassEvent(title, link string, startedAt time.Time) ConnpassEvent {
 	return ConnpassEvent{title: title, link: link, startedAt: startedAt}
 }

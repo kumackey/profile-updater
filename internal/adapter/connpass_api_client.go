@@ -25,7 +25,7 @@ func (c ConnpassAPIClient) FetchEventList(ctx context.Context, userNickname stri
 
 	list := make([]domain.Item, 0, len(response.Events))
 	for _, event := range response.Events {
-		list = append(list, domain.NewConpassEvent(event.Title, event.URL, event.StartedAt))
+		list = append(list, domain.NewConnpassEvent(event.Title, event.URL, event.StartedAt))
 	}
 
 	return list, nil

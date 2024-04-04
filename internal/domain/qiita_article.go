@@ -5,27 +5,31 @@ import (
 	"time"
 )
 
-type qiitaArticle struct {
+type QiitaArticle struct {
 	title       string
 	link        string
 	lgtms       int
 	publishedAt time.Time
 }
 
-func (z *qiitaArticle) toMarkdown() string {
-	publishedAt := convertTimeToString(z.publishedAt)
+func (q QiitaArticle) ToMarkdown() string {
+	publishedAt := convertTimeToString(q.publishedAt)
 
 	text := "- " + publishedAt
 
-	if z.lgtms != 0 {
-		text += ", **" + strconv.Itoa(z.lgtms) + " LGTM**"
+	if q.lgtms != 0 {
+		text += ", **" + strconv.Itoa(q.lgtms) + " LGTM**"
 	}
 
-	text += " [" + z.title + "](" + z.link + ")"
+	text += " [" + q.title + "](" + q.link + ")"
 
 	return text
 }
 
-func NewQiitaArticle(title, link string, lgtms int, publishedAt time.Time) *qiitaArticle {
-	return &qiitaArticle{title: title, link: link, lgtms: lgtms, publishedAt: publishedAt}
+func (q QiitaArticle) SortOrder() int64 {
+	return q.publishedAt.Unix()
+}
+
+func NewQiitaArticle(title, link string, lgtms int, publishedAt time.Time) QiitaArticle {
+	return QiitaArticle{title: title, link: link, lgtms: lgtms, publishedAt: publishedAt}
 }

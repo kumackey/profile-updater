@@ -26,7 +26,7 @@ func (c QiitaAPIClient) FetchArticleList(
 	ctx context.Context,
 	userID string,
 	limit int,
-) (domain.QiitaArticleList, error) {
+) ([]domain.QiitaArticle, error) {
 	client := &http.Client{}
 
 	// https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
@@ -69,7 +69,7 @@ func (c QiitaAPIClient) FetchArticleList(
 		return nil, domain.ErrQiitaAuthorNotFound
 	}
 
-	list := make(domain.QiitaArticleList, 0, len(data))
+	list := make([]domain.QiitaArticle, 0, len(data))
 	for i := range data {
 		list = append(list, domain.NewQiitaArticle(data[i].Title, data[i].URL, data[i].LikeCount, data[i].CreatedAt))
 	}
