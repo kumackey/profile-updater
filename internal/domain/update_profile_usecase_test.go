@@ -2,9 +2,10 @@ package domain
 
 import (
 	"context"
+	"github.com/stretchr/testify/assert"
+	"net/url"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
@@ -22,16 +23,6 @@ func (m *profileIOMock) Write(*Profile) error {
 	ret := m.Called()
 
 	return ret.Error(0)
-}
-
-type zennClientMock struct {
-	mock.Mock
-}
-
-func (m *zennClientMock) FetchArticleList(ctx context.Context, userID string) ([]ZennArticle, error) {
-	ret := m.Called(ctx, userID)
-
-	return ret.Get(0).([]ZennArticle), ret.Error(1)
 }
 
 type connpassClientMock struct {
@@ -58,6 +49,16 @@ func (m *qiitaClientMock) FetchArticleList(
 	return ret.Get(0).([]QiitaArticle), ret.Error(1)
 }
 
+type rssClientMock struct {
+	mock.Mock
+}
+
+func (m *rssClientMock) FetchItems(ctx context.Context, url *url.URL) ([]RssItem, error) {
+	ret := m.Called(ctx, url)
+
+	return ret.Get(0).([]RssItem), ret.Error(1)
+}
+
 func TestUpdateProfileUsecase_Exec(t *testing.T) {
 	var tests = map[string]struct {
 		input            UpdateProfileUsecaseInput
@@ -72,6 +73,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				connpassMaxEvents: 5,
 				qiitaUserID:       "kumackey",
 				qiitaMaxArticles:  5,
+				// TODO: RSSのテストを追加する
 			},
 			retProfileIOScan: &Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->" +
@@ -106,17 +108,19 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
 			profileIOMock := new(profileIOMock)
-			zennClientMock := new(zennClientMock)
 			connpassClientMock := new(connpassClientMock)
 			qiitaClientMock := new(qiitaClientMock)
-			usecase := UpdateProfileUsecase{profileIOMock, zennClientMock, connpassClientMock, qiitaClientMock}
-
+			rssClientMock := new(rssClientMock)
+			usecase := UpdateProfileUsecase{profileIOMock, connpassClientMock, qiitaClientMock, rssClientMock}
 			profileIOMock.On("Write", mock.Anything).Return(nil)
-			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return([]ZennArticle{}, nil)
-			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return([]ConnpassEvent{}, nil)
-			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
+			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).
+				Return([]ConnpassEvent{}, nil)
+			profileIOMock.On("Scan").
+				Return(test.retProfileIOScan, nil)
 			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).
 				Return([]QiitaArticle{}, nil)
+			rssClientMock.On("FetchItems", mock.Anything, mock.Anything).
+				Return([]RssItem{}, nil)
 
 			err := usecase.Exec(context.Background(), test.input)
 			assert.Equal(t, test.output, err)
