@@ -39,7 +39,7 @@ func TestToMarkdown_Connpass(t *testing.T) {
 	}
 }
 
-func connpass(title, link string, startedAt string) ConnpassEvent {
+func connpass(title, link, startedAt string) ConnpassEvent {
 	sa, err := time.Parse(time.RFC3339, startedAt)
 	if err != nil {
 		panic("connpass, time.Parse failed")
@@ -101,7 +101,7 @@ func TestToMarkdown_Zenn(t *testing.T) {
 	}
 }
 
-func zenn(title, link string, publishedAt string) ZennArticle {
+func zenn(title, link, publishedAt string) ZennArticle {
 	pa, err := time.Parse(time.RFC3339, publishedAt)
 	if err != nil {
 		panic("zenn, time.Parse failed")
