@@ -3,11 +3,9 @@ package adapter
 import (
 	"context"
 	"encoding/xml"
+	"github.com/kumackey/profile-updater/internal/domain"
 	"net/http"
 	"time"
-
-	"github.com/kumackey/profile-updater/internal/domain"
-	"github.com/kumackey/profile-updater/internal/usecase"
 )
 
 type ZennRSSClient struct{}
@@ -28,14 +26,14 @@ func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) (dom
 
 	if resp.StatusCode != http.StatusOK {
 		if http.StatusInternalServerError < resp.StatusCode {
-			return nil, usecase.ErrZennInternalServerError
+			return nil, domain.ErrZennInternalServerError
 		}
 
 		if resp.StatusCode == http.StatusNotFound {
-			return nil, usecase.ErrZennAuthorNotFound
+			return nil, domain.ErrZennAuthorNotFound
 		}
 
-		return nil, usecase.ErrZennUnknownError
+		return nil, domain.ErrZennUnknownError
 	}
 
 	var rss zennUserFeed

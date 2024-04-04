@@ -2,11 +2,11 @@ package adapter
 
 import (
 	"context"
+	"github.com/kumackey/profile-updater/internal/domain"
 	"math/rand"
 	"strconv"
 	"testing"
 
-	"github.com/kumackey/profile-updater/internal/usecase"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,7 +46,7 @@ func TestZennRSSClient_FetchArticleList_Failed(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			zenn := ZennRSSClient{}
 			_, err := zenn.FetchArticleList(context.Background(), test.userID)
-			assert.Equal(t, usecase.ErrZennAuthorNotFound, err)
+			assert.Equal(t, domain.ErrZennAuthorNotFound, err)
 		})
 	}
 }

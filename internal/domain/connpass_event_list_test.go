@@ -18,8 +18,8 @@ func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
 	}{
 		"マークダウンに変換できる": {
 			input: ConpassEventList{
-				&connpassEvent{title: "イベントの例1", link: "https://example.com/1", ownerNickname: organizer, startedAt: publishedAt1},
-				&connpassEvent{title: "イベントの例2", link: "https://example.com/2", ownerNickname: "unkwown", startedAt: publishedAt2},
+				&ConnpassEvent{title: "イベントの例1", link: "https://example.com/1", ownerNickname: organizer, startedAt: publishedAt1},
+				&ConnpassEvent{title: "イベントの例2", link: "https://example.com/2", ownerNickname: "unkwown", startedAt: publishedAt2},
 			},
 			output: "\n- Feb 1 **Organizer** [イベントの例1](https://example.com/1)\n- Feb 2 [イベントの例2](https://example.com/2)\n",
 		},
@@ -44,14 +44,14 @@ func TestConpassEventList_SortByPublishedAt(t *testing.T) {
 	}{
 		"開始時間の遅い順となる": {
 			input: ConpassEventList{
-				&connpassEvent{startedAt: second},
-				&connpassEvent{startedAt: first},
-				&connpassEvent{startedAt: third},
+				&ConnpassEvent{startedAt: second},
+				&ConnpassEvent{startedAt: first},
+				&ConnpassEvent{startedAt: third},
 			},
 			output: ConpassEventList{
-				&connpassEvent{startedAt: third},
-				&connpassEvent{startedAt: second},
-				&connpassEvent{startedAt: first},
+				&ConnpassEvent{startedAt: third},
+				&ConnpassEvent{startedAt: second},
+				&ConnpassEvent{startedAt: first},
 			},
 		},
 	}
@@ -72,13 +72,13 @@ func TestConpassEventList_Limit(t *testing.T) {
 	}{
 		"イベント数を制限できる": {
 			input: ConpassEventList{
-				&connpassEvent{title: "first"},
-				&connpassEvent{title: "second"},
-				&connpassEvent{title: "third"},
+				&ConnpassEvent{title: "first"},
+				&ConnpassEvent{title: "second"},
+				&ConnpassEvent{title: "third"},
 			},
 			limit: 1,
 			output: ConpassEventList{
-				&connpassEvent{title: "first"},
+				&ConnpassEvent{title: "first"},
 			},
 		},
 	}

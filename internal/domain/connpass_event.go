@@ -4,14 +4,14 @@ import (
 	"time"
 )
 
-type connpassEvent struct {
+type ConnpassEvent struct {
 	title         string
 	link          string
 	ownerNickname string
 	startedAt     time.Time
 }
 
-func (z *connpassEvent) toMarkdown(userNickname string) string {
+func (z *ConnpassEvent) toMarkdown(userNickname string) string {
 	markdown := "- " + convertTimeToString(z.startedAt) + " "
 	if z.isOwner(userNickname) {
 		markdown += "**Organizer** "
@@ -22,10 +22,10 @@ func (z *connpassEvent) toMarkdown(userNickname string) string {
 	return markdown
 }
 
-func (z *connpassEvent) isOwner(userNickname string) bool {
+func (z *ConnpassEvent) isOwner(userNickname string) bool {
 	return z.ownerNickname == userNickname
 }
 
-func NewConpassEvent(title, link, ownerNickname string, startedAt time.Time) *connpassEvent {
-	return &connpassEvent{title: title, link: link, ownerNickname: ownerNickname, startedAt: startedAt}
+func NewConpassEvent(title, link, ownerNickname string, startedAt time.Time) *ConnpassEvent {
+	return &ConnpassEvent{title: title, link: link, ownerNickname: ownerNickname, startedAt: startedAt}
 }

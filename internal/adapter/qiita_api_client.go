@@ -3,13 +3,11 @@ package adapter
 import (
 	"context"
 	"encoding/json"
+	"github.com/kumackey/profile-updater/internal/domain"
 	"io"
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/kumackey/profile-updater/internal/domain"
-	"github.com/kumackey/profile-updater/internal/usecase"
 )
 
 type QiitaAPIClient struct{}
@@ -46,14 +44,14 @@ func (c QiitaAPIClient) FetchArticleList(
 
 	if resp.StatusCode != http.StatusOK {
 		if http.StatusInternalServerError < resp.StatusCode {
-			return nil, usecase.ErrQiitaInternalServerError
+			return nil, domain.ErrQiitaInternalServerError
 		}
 
 		if resp.StatusCode == http.StatusNotFound {
-			return nil, usecase.ErrQiitaAuthorNotFound
+			return nil, domain.ErrQiitaAuthorNotFound
 		}
 
-		return nil, usecase.ErrQiitaUnknownError
+		return nil, domain.ErrQiitaUnknownError
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -68,7 +66,7 @@ func (c QiitaAPIClient) FetchArticleList(
 
 	if len(data) == 0 {
 		// 投稿がゼロの可能性も考慮する必要があるが、そんなユーザはこのActionsを使わない理論により無視する
-		return nil, usecase.ErrQiitaAuthorNotFound
+		return nil, domain.ErrQiitaAuthorNotFound
 	}
 
 	list := make(domain.QiitaArticleList, 0, len(data))

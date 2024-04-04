@@ -2,7 +2,7 @@ package domain
 
 import "sort"
 
-type ConpassEventList []*connpassEvent
+type ConpassEventList []*ConnpassEvent
 
 func (l ConpassEventList) ToProfileMarkdown(userNickname string) string {
 	profileMarkdown := "\n"

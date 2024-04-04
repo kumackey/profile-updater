@@ -1,11 +1,9 @@
-package usecase
+package domain
 
 import (
 	"context"
 	"fmt"
 	"time"
-
-	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 // DefaultMaxLines はデフォルトでの最大行数
@@ -48,7 +46,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 	}
 
 	if input.connpassNickname != "" {
-		profile, err = func(input UpdateProfileUsecaseInput, profile *domain.Profile) (*domain.Profile, error) {
+		profile, err = func(input UpdateProfileUsecaseInput, profile *Profile) (*Profile, error) {
 			const readmeURL = "https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass"
 
 			if time.Now().After(time.Date(2024, 5, 23, 0, 0, 0, 0, time.UTC)) {
