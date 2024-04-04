@@ -76,3 +76,34 @@ func qiita(title string, link string, lgtms int, publishedAt string) QiitaArticl
 	}
 	return QiitaArticle{title: title, link: link, lgtms: lgtms, publishedAt: pa}
 }
+
+func TestToMarkdown_Zenn(t *testing.T) {
+	tests := map[string]struct {
+		input  []ZennArticle
+		output string
+	}{
+		"マークダウンに変換できる": {
+			input: []ZennArticle{
+				zenn("記事の例1", "https://example.com/1", "2022-02-01T14:59:00+00:00"),
+				zenn("記事の例2", "https://example.com/2", "2022-02-01T15:00:00+00:00"),
+			},
+
+			output: "\n- Feb 2 [記事の例2](https://example.com/2)\n- Feb 1 [記事の例1](https://example.com/1)\n",
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			markdown := ToMarkdown(test.input, 5)
+			assert.Equal(t, test.output, markdown)
+		})
+	}
+}
+
+func zenn(title string, link string, publishedAt string) ZennArticle {
+	pa, err := time.Parse(time.RFC3339, publishedAt)
+	if err != nil {
+		panic("zenn, time.Parse failed")
+	}
+	return ZennArticle{title: title, link: link, publishedAt: pa}
+}

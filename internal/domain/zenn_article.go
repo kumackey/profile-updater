@@ -4,18 +4,22 @@ import (
 	"time"
 )
 
-type zennArticle struct {
+type ZennArticle struct {
 	title       string
 	link        string
 	publishedAt time.Time
 }
 
-func (z *zennArticle) toMarkdown() string {
+func (z ZennArticle) ToMarkdown() string {
 	publishedAt := convertTimeToString(z.publishedAt)
 
 	return "- " + publishedAt + " [" + z.title + "](" + z.link + ")"
 }
 
-func NewZennArticle(title, link string, publishedAt time.Time) *zennArticle {
-	return &zennArticle{title: title, link: link, publishedAt: publishedAt}
+func (z ZennArticle) SortOrder() int64 {
+	return z.publishedAt.Unix()
+}
+
+func NewZennArticle(title, link string, publishedAt time.Time) ZennArticle {
+	return ZennArticle{title: title, link: link, publishedAt: publishedAt}
 }

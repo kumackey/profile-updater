@@ -27,10 +27,10 @@ type zennClientMock struct {
 	mock.Mock
 }
 
-func (m *zennClientMock) FetchArticleList(ctx context.Context, userID string) (ZennArticleList, error) {
+func (m *zennClientMock) FetchArticleList(ctx context.Context, userID string) ([]ZennArticle, error) {
 	ret := m.Called(ctx, userID)
 
-	return ret.Get(0).(ZennArticleList), ret.Error(1)
+	return ret.Get(0).([]ZennArticle), ret.Error(1)
 }
 
 type connpassClientMock struct {
@@ -111,7 +111,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			usecase := UpdateProfileUsecase{profileIOMock, zennClientMock, connpassClientMock, qiitaClientMock}
 
 			profileIOMock.On("Write", mock.Anything).Return(nil)
-			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(ZennArticleList{}, nil)
+			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return([]ZennArticle{}, nil)
 			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return([]ConnpassEvent{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).

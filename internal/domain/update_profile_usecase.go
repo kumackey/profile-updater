@@ -37,7 +37,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 			return err
 		}
 
-		replaceValue := zennList.SortByPublishedAt().Limit(input.zennMaxArticles).ToProfileMarkdown()
+		replaceValue := ToMarkdown(zennList, input.zennMaxArticles)
 
 		profile, err = profile.ReplaceZenn(replaceValue)
 		if err != nil {
