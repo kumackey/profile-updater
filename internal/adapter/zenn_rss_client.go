@@ -7,12 +7,11 @@ import (
 	"time"
 
 	"github.com/kumackey/profile-updater/internal/domain"
-	"github.com/kumackey/profile-updater/internal/usecase"
 )
 
 type ZennRSSClient struct{}
 
-func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) (domain.ZennArticleList, error) {
+func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) ([]domain.ZennArticle, error) {
 	// https://zenn.dev/zenn/articles/zenn-feed-rss
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://zenn.dev/"+userID+"/feed", http.NoBody)
 	if err != nil {
@@ -28,14 +27,14 @@ func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) (dom
 
 	if resp.StatusCode != http.StatusOK {
 		if http.StatusInternalServerError < resp.StatusCode {
-			return nil, usecase.ErrZennInternalServerError
+			return nil, domain.ErrZennInternalServerError
 		}
 
 		if resp.StatusCode == http.StatusNotFound {
-			return nil, usecase.ErrZennAuthorNotFound
+			return nil, domain.ErrZennAuthorNotFound
 		}
 
-		return nil, usecase.ErrZennUnknownError
+		return nil, domain.ErrZennUnknownError
 	}
 
 	var rss zennUserFeed
@@ -46,7 +45,7 @@ func (r ZennRSSClient) FetchArticleList(ctx context.Context, userID string) (dom
 	}
 
 	// https://go-critic.com/overview#rangevalcopy
-	list := make(domain.ZennArticleList, 0, len(rss.Items))
+	list := make([]domain.ZennArticle, 0, len(rss.Items))
 	for i := range rss.Items {
 		publishedAt, err := time.Parse(time.RFC1123, rss.Items[i].PubDate)
 		if err != nil {

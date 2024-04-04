@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"github.com/kumackey/profile-updater/internal/adapter"
-	"github.com/kumackey/profile-updater/internal/usecase"
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 func main() {
@@ -37,10 +37,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	u := usecase.NewUpdateProfileUsecase(
+	u := domain.NewUpdateProfileUsecase(
 		adapter.ReadmeFileOS{}, adapter.ZennRSSClient{}, adapter.ConnpassAPIClient{}, adapter.QiitaAPIClient{},
 	)
-	input := usecase.NewUpdateProfileUseCaseInput(
+	input := domain.NewUpdateProfileUseCaseInput(
 		zennUserID,
 		zennMaxArticles,
 		connpassNickname,
@@ -60,7 +60,7 @@ func main() {
 
 func getMaxLines(v string) (int, error) {
 	if v == "" {
-		return usecase.DefaultMaxLines, nil
+		return domain.DefaultMaxLines, nil
 	}
 
 	maxArticles, err := strconv.Atoi(v)

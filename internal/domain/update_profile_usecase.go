@@ -1,11 +1,9 @@
-package usecase
+package domain
 
 import (
 	"context"
 	"fmt"
 	"time"
-
-	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 // DefaultMaxLines はデフォルトでの最大行数
@@ -39,7 +37,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 			return err
 		}
 
-		replaceValue := zennList.SortByPublishedAt().Limit(input.zennMaxArticles).ToProfileMarkdown()
+		replaceValue := ToMarkdown(zennList, input.zennMaxArticles)
 
 		profile, err = profile.ReplaceZenn(replaceValue)
 		if err != nil {
@@ -48,7 +46,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 	}
 
 	if input.connpassNickname != "" {
-		profile, err = func(input UpdateProfileUsecaseInput, profile *domain.Profile) (*domain.Profile, error) {
+		profile, err = func(input UpdateProfileUsecaseInput, profile *Profile) (*Profile, error) {
 			const readmeURL = "https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass"
 
 			if time.Now().After(time.Date(2024, 5, 23, 0, 0, 0, 0, time.UTC)) {
@@ -66,9 +64,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 				return profile, err
 			}
 
-			replaceValue := connpassList.SortByPublishedAt().
-				Limit(input.connpassMaxEvents).
-				ToProfileMarkdown(input.connpassNickname)
+			replaceValue := ToMarkdown(connpassList, input.connpassMaxEvents)
 
 			return profile.ReplaceConnpass(replaceValue)
 		}(input, profile)
@@ -83,7 +79,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 			return err
 		}
 
-		replaceValue := qiitaArticleList.SortByPublishedAt().ToProfileMarkdown()
+		replaceValue := ToMarkdown(qiitaArticleList, input.qiitaMaxArticles)
 
 		profile, err = profile.ReplaceQiita(replaceValue)
 		if err != nil {

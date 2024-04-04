@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/kumackey/profile-updater/internal/usecase"
+	"github.com/kumackey/profile-updater/internal/domain"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,7 +46,7 @@ func TestQiitaAPIClient_FetchArticleList_Failed(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			qiita := QiitaAPIClient{}
 			_, err := qiita.FetchArticleList(context.Background(), test.userID, 10)
-			assert.Equal(t, usecase.ErrQiitaAuthorNotFound, err)
+			assert.Equal(t, domain.ErrQiitaAuthorNotFound, err)
 		})
 	}
 }

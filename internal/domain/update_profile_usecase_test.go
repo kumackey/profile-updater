@@ -1,10 +1,9 @@
-package usecase
+package domain
 
 import (
 	"context"
 	"testing"
 
-	"github.com/kumackey/profile-updater/internal/domain"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -13,13 +12,13 @@ type profileIOMock struct {
 	mock.Mock
 }
 
-func (m *profileIOMock) Scan() (*domain.Profile, error) {
+func (m *profileIOMock) Scan() (*Profile, error) {
 	ret := m.Called()
 
-	return ret.Get(0).(*domain.Profile), ret.Error(1)
+	return ret.Get(0).(*Profile), ret.Error(1)
 }
 
-func (m *profileIOMock) Write(*domain.Profile) error {
+func (m *profileIOMock) Write(*Profile) error {
 	ret := m.Called()
 
 	return ret.Error(0)
@@ -29,20 +28,20 @@ type zennClientMock struct {
 	mock.Mock
 }
 
-func (m *zennClientMock) FetchArticleList(ctx context.Context, userID string) (domain.ZennArticleList, error) {
+func (m *zennClientMock) FetchArticleList(ctx context.Context, userID string) ([]ZennArticle, error) {
 	ret := m.Called(ctx, userID)
 
-	return ret.Get(0).(domain.ZennArticleList), ret.Error(1)
+	return ret.Get(0).([]ZennArticle), ret.Error(1)
 }
 
 type connpassClientMock struct {
 	mock.Mock
 }
 
-func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname string) (domain.ConpassEventList, error) {
+func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname string) ([]ConnpassEvent, error) {
 	ret := m.Called(ctx, userNickname)
 
-	return ret.Get(0).(domain.ConpassEventList), ret.Error(1)
+	return ret.Get(0).([]ConnpassEvent), ret.Error(1)
 }
 
 type qiitaClientMock struct {
@@ -53,16 +52,16 @@ func (m *qiitaClientMock) FetchArticleList(
 	ctx context.Context,
 	userID string,
 	limit int,
-) (domain.QiitaArticleList, error) {
+) ([]QiitaArticle, error) {
 	ret := m.Called(ctx, userID, limit)
 
-	return ret.Get(0).(domain.QiitaArticleList), ret.Error(1)
+	return ret.Get(0).([]QiitaArticle), ret.Error(1)
 }
 
 func TestUpdateProfileUsecase_Exec(t *testing.T) {
 	var tests = map[string]struct {
 		input            UpdateProfileUsecaseInput
-		retProfileIOScan *domain.Profile
+		retProfileIOScan *Profile
 		output           error
 	}{
 		"全部の値が入っている": {
@@ -74,7 +73,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				qiitaUserID:       "kumackey",
 				qiitaMaxArticles:  5,
 			},
-			retProfileIOScan: &domain.Profile{
+			retProfileIOScan: &Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->" +
 					"<!-- profile updater begin: connpass --><!-- profile updater end: connpass -->" +
 					"<!-- profile updater begin: qiita --><!-- profile updater end: qiita -->",
@@ -88,7 +87,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				connpassMaxEvents: 5,
 				qiitaMaxArticles:  5,
 			},
-			retProfileIOScan: &domain.Profile{
+			retProfileIOScan: &Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->",
 			},
 			output: nil,
@@ -100,8 +99,8 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				connpassMaxEvents: 5,
 				qiitaMaxArticles:  5,
 			},
-			retProfileIOScan: &domain.Profile{},
-			output:           domain.ErrReplaceStatementNotFound,
+			retProfileIOScan: &Profile{},
+			output:           ErrReplaceStatementNotFound,
 		},
 	}
 	for name, test := range tests {
@@ -113,11 +112,11 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			usecase := UpdateProfileUsecase{profileIOMock, zennClientMock, connpassClientMock, qiitaClientMock}
 
 			profileIOMock.On("Write", mock.Anything).Return(nil)
-			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(domain.ZennArticleList{}, nil)
-			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(domain.ConpassEventList{}, nil)
+			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return([]ZennArticle{}, nil)
+			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return([]ConnpassEvent{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).
-				Return(domain.QiitaArticleList{}, nil)
+				Return([]QiitaArticle{}, nil)
 
 			err := usecase.Exec(context.Background(), test.input)
 			assert.Equal(t, test.output, err)

@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/kumackey/profile-updater/internal/domain"
-	"github.com/kumackey/profile-updater/internal/usecase"
 )
 
 type QiitaAPIClient struct{}
@@ -28,7 +27,7 @@ func (c QiitaAPIClient) FetchArticleList(
 	ctx context.Context,
 	userID string,
 	limit int,
-) (domain.QiitaArticleList, error) {
+) ([]domain.QiitaArticle, error) {
 	client := &http.Client{}
 
 	// https://qiita.com/api/v2/docs#%E6%8A%95%E7%A8%BF
@@ -46,14 +45,14 @@ func (c QiitaAPIClient) FetchArticleList(
 
 	if resp.StatusCode != http.StatusOK {
 		if http.StatusInternalServerError < resp.StatusCode {
-			return nil, usecase.ErrQiitaInternalServerError
+			return nil, domain.ErrQiitaInternalServerError
 		}
 
 		if resp.StatusCode == http.StatusNotFound {
-			return nil, usecase.ErrQiitaAuthorNotFound
+			return nil, domain.ErrQiitaAuthorNotFound
 		}
 
-		return nil, usecase.ErrQiitaUnknownError
+		return nil, domain.ErrQiitaUnknownError
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -68,10 +67,10 @@ func (c QiitaAPIClient) FetchArticleList(
 
 	if len(data) == 0 {
 		// 投稿がゼロの可能性も考慮する必要があるが、そんなユーザはこのActionsを使わない理論により無視する
-		return nil, usecase.ErrQiitaAuthorNotFound
+		return nil, domain.ErrQiitaAuthorNotFound
 	}
 
-	list := make(domain.QiitaArticleList, 0, len(data))
+	list := make([]domain.QiitaArticle, 0, len(data))
 	for i := range data {
 		list = append(list, domain.NewQiitaArticle(data[i].Title, data[i].URL, data[i].LikeCount, data[i].CreatedAt))
 	}

@@ -1,10 +1,8 @@
-package usecase
+package domain
 
 import (
 	"context"
 	"errors"
-
-	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 var (
@@ -14,5 +12,5 @@ var (
 )
 
 type QiitaClient interface {
-	FetchArticleList(ctx context.Context, userID string, limit int) (domain.QiitaArticleList, error)
+	FetchArticleList(ctx context.Context, userID string, limit int) ([]QiitaArticle, error)
 }
