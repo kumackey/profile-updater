@@ -12,80 +12,32 @@ func TestConpassEventList_ToProfileMarkdown(t *testing.T) {
 	publishedAt2, _ := time.Parse(time.RFC3339, "2022-02-01T15:00:00+00:00")
 
 	tests := map[string]struct {
-		input  ConpassEventList
+		input  []ConnpassEvent
+		limit  int
 		output string
 	}{
 		"マークダウンに変換できる": {
-			input: ConpassEventList{
-				&ConnpassEvent{title: "イベントの例1", link: "https://example.com/1", startedAt: publishedAt1},
-				&ConnpassEvent{title: "イベントの例2", link: "https://example.com/2", startedAt: publishedAt2},
+			input: []ConnpassEvent{
+				{title: "イベントの例1", link: "https://example.com/1", startedAt: publishedAt1},
+				{title: "イベントの例2", link: "https://example.com/2", startedAt: publishedAt2},
 			},
-			output: "\n- Feb 1 [イベントの例1](https://example.com/1)\n- Feb 2 [イベントの例2](https://example.com/2)\n",
+			limit:  5,
+			output: "\n- Feb 2 [イベントの例2](https://example.com/2)\n- Feb 1 [イベントの例1](https://example.com/1)\n",
+		},
+		"イベント数を制限": {
+			input: []ConnpassEvent{
+				{title: "イベントの例1", link: "https://example.com/1", startedAt: publishedAt1},
+				{title: "イベントの例2", link: "https://example.com/2", startedAt: publishedAt2},
+			},
+			limit:  1,
+			output: "\n- Feb 2 [イベントの例2](https://example.com/2)\n",
 		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			markdown := test.input.ToProfileMarkdown()
+			markdown := ToMarkdown(test.input, test.limit)
 			assert.Equal(t, test.output, markdown)
-		})
-	}
-}
-
-func TestConpassEventList_SortByPublishedAt(t *testing.T) {
-	first, _ := time.Parse(time.RFC3339, "2022-02-01T00:00:01+09:00")
-	second, _ := time.Parse(time.RFC3339, "2022-02-01T00:00:02+09:00")
-	third, _ := time.Parse(time.RFC3339, "2022-02-01T00:00:03+09:00")
-
-	tests := map[string]struct {
-		input  ConpassEventList
-		output ConpassEventList
-	}{
-		"開始時間の遅い順となる": {
-			input: ConpassEventList{
-				&ConnpassEvent{startedAt: second},
-				&ConnpassEvent{startedAt: first},
-				&ConnpassEvent{startedAt: third},
-			},
-			output: ConpassEventList{
-				&ConnpassEvent{startedAt: third},
-				&ConnpassEvent{startedAt: second},
-				&ConnpassEvent{startedAt: first},
-			},
-		},
-	}
-
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			profile := test.input.SortByPublishedAt()
-			assert.Equal(t, test.output, profile)
-		})
-	}
-}
-
-func TestConpassEventList_Limit(t *testing.T) {
-	tests := map[string]struct {
-		input  ConpassEventList
-		limit  int
-		output ConpassEventList
-	}{
-		"イベント数を制限できる": {
-			input: ConpassEventList{
-				&ConnpassEvent{title: "first"},
-				&ConnpassEvent{title: "second"},
-				&ConnpassEvent{title: "third"},
-			},
-			limit: 1,
-			output: ConpassEventList{
-				&ConnpassEvent{title: "first"},
-			},
-		},
-	}
-
-	for name, test := range tests {
-		t.Run(name, func(t *testing.T) {
-			profile := test.input.Limit(test.limit)
-			assert.Equal(t, test.output, profile)
 		})
 	}
 }

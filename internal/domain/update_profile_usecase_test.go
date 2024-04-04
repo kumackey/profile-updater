@@ -37,10 +37,10 @@ type connpassClientMock struct {
 	mock.Mock
 }
 
-func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname string) (ConpassEventList, error) {
+func (m *connpassClientMock) FetchEventList(ctx context.Context, userNickname string) ([]ConnpassEvent, error) {
 	ret := m.Called(ctx, userNickname)
 
-	return ret.Get(0).(ConpassEventList), ret.Error(1)
+	return ret.Get(0).([]ConnpassEvent), ret.Error(1)
 }
 
 type qiitaClientMock struct {
@@ -112,7 +112,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 
 			profileIOMock.On("Write", mock.Anything).Return(nil)
 			zennClientMock.On("FetchArticleList", mock.Anything, mock.Anything).Return(ZennArticleList{}, nil)
-			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return(ConpassEventList{}, nil)
+			connpassClientMock.On("FetchEventList", mock.Anything, mock.Anything).Return([]ConnpassEvent{}, nil)
 			profileIOMock.On("Scan").Return(test.retProfileIOScan, nil)
 			qiitaClientMock.On("FetchArticleList", mock.Anything, mock.Anything, mock.Anything).
 				Return(QiitaArticleList{}, nil)
