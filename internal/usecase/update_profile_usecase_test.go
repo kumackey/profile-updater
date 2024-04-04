@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/kumackey/profile-updater/pkg/domain"
+	"github.com/kumackey/profile-updater/internal/domain"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

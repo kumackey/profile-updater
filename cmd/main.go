@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/kumackey/profile-updater/pkg/adapter"
-	"github.com/kumackey/profile-updater/pkg/usecase"
+	"github.com/kumackey/profile-updater/internal/adapter"
+	"github.com/kumackey/profile-updater/internal/usecase"
 )
 
 func main() {

@@ -6,31 +6,31 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/kumackey/profile-updater/pkg/usecase"
+	"github.com/kumackey/profile-updater/internal/usecase"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestZennRSSClient_FetchArticleList(t *testing.T) {
+func TestQiitaAPIClient_FetchArticleList(t *testing.T) {
 	tests := map[string]struct {
 		userID       string
 		articleCount int
 	}{
-		"kumackeyは8記事以上書いている": {
-			"kumackey", 8,
+		"kumackeyは4記事は書いている": {
+			"kumackey", 4,
 		},
 	}
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			zenn := ZennRSSClient{}
-			list, err := zenn.FetchArticleList(context.Background(), test.userID)
+			qiita := QiitaAPIClient{}
+			list, err := qiita.FetchArticleList(context.Background(), test.userID, test.articleCount)
 			assert.Nil(t, err)
-			assert.GreaterOrEqual(t, len(list), test.articleCount)
+			assert.Equal(t, len(list), test.articleCount)
 		})
 	}
 }
 
-func TestZennRSSClient_FetchArticleList_Failed(t *testing.T) {
+func TestQiitaAPIClient_FetchArticleList_Failed(t *testing.T) {
 	//nolint:gosec // ランダム文字列を作りたいだけなので無視
 	random := strconv.Itoa(rand.Intn(100000))
 
@@ -44,9 +44,9 @@ func TestZennRSSClient_FetchArticleList_Failed(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
-			zenn := ZennRSSClient{}
-			_, err := zenn.FetchArticleList(context.Background(), test.userID)
-			assert.Equal(t, usecase.ErrZennAuthorNotFound, err)
+			qiita := QiitaAPIClient{}
+			_, err := qiita.FetchArticleList(context.Background(), test.userID, 10)
+			assert.Equal(t, usecase.ErrQiitaAuthorNotFound, err)
 		})
 	}
 }

@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/kumackey/profile-updater/pkg/domain"
-	"github.com/kumackey/profile-updater/pkg/usecase"
+	"github.com/kumackey/profile-updater/internal/domain"
+	"github.com/kumackey/profile-updater/internal/usecase"
 )
 
 type QiitaAPIClient struct{}
