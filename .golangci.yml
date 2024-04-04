@@ -2,7 +2,6 @@ run:
   timeout: 10m
 
 output:
-  format: tab
   sort-results: true
 
 # https://golangci-lint.run/usage/linters/
