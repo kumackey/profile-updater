@@ -56,9 +56,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 					"connpassの処理はスキップされます。\n"+
 					"詳細はREADMEをご確認ください: %s\n", readmeURL,
 				)
-
-				// skip
-				return profile, nil
+				return profile, fmt.Errorf("connpassのサポートは廃止しました。詳細はREADMEをご確認ください: %s", readmeURL)
 			}
 
 			fmt.Printf("WARNING: connpassのサポートは2024年5月23日以降に廃止されます。詳細はREADMEをご確認ください: %s\n", readmeURL)
