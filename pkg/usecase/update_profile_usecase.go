@@ -68,6 +68,9 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 
 			return profile.ReplaceConnpass(replaceValue)
 		}(input, profile)
+		if err != nil {
+			return err
+		}
 	}
 
 	if input.qiitaUserID != "" {
