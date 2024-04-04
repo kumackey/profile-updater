@@ -3,9 +3,10 @@ package adapter
 import (
 	"context"
 	"encoding/xml"
-	"github.com/kumackey/profile-updater/internal/domain"
 	"net/http"
 	"time"
+
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 type ZennRSSClient struct{}

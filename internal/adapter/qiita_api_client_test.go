@@ -2,11 +2,12 @@ package adapter
 
 import (
 	"context"
-	"github.com/kumackey/profile-updater/internal/domain"
-	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"strconv"
 	"testing"
+
+	"github.com/kumackey/profile-updater/internal/domain"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestQiitaAPIClient_FetchArticleList(t *testing.T) {

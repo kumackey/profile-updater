@@ -2,10 +2,11 @@ package adapter
 
 import (
 	"context"
-	"github.com/kumackey/profile-updater/internal/domain"
 	"math/rand"
 	"strconv"
 	"testing"
+
+	"github.com/kumackey/profile-updater/internal/domain"
 
 	"github.com/stretchr/testify/assert"
 )

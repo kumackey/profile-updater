@@ -1,9 +1,10 @@
 package domain
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestToMarkdown_Connpass(t *testing.T) {
@@ -38,7 +39,7 @@ func TestToMarkdown_Connpass(t *testing.T) {
 	}
 }
 
-func connpass(title string, link string, startedAt string) ConnpassEvent {
+func connpass(title, link string, startedAt string) ConnpassEvent {
 	sa, err := time.Parse(time.RFC3339, startedAt)
 	if err != nil {
 		panic("connpass, time.Parse failed")
@@ -69,7 +70,7 @@ func TestToMarkdown_Qiita(t *testing.T) {
 	}
 }
 
-func qiita(title string, link string, lgtms int, publishedAt string) QiitaArticle {
+func qiita(title, link string, lgtms int, publishedAt string) QiitaArticle {
 	pa, err := time.Parse(time.RFC3339, publishedAt)
 	if err != nil {
 		panic("qiita, time.Parse failed")
@@ -100,7 +101,7 @@ func TestToMarkdown_Zenn(t *testing.T) {
 	}
 }
 
-func zenn(title string, link string, publishedAt string) ZennArticle {
+func zenn(title, link string, publishedAt string) ZennArticle {
 	pa, err := time.Parse(time.RFC3339, publishedAt)
 	if err != nil {
 		panic("zenn, time.Parse failed")

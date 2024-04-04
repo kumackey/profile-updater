@@ -3,10 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kumackey/profile-updater/internal/adapter"
-	"github.com/kumackey/profile-updater/internal/domain"
 	"os"
 	"strconv"
+
+	"github.com/kumackey/profile-updater/internal/adapter"
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 func main() {

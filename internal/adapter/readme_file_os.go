@@ -1,8 +1,9 @@
 package adapter
 
 import (
-	"github.com/kumackey/profile-updater/internal/domain"
 	"os"
+
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 const (

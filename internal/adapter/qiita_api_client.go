@@ -3,11 +3,12 @@ package adapter
 import (
 	"context"
 	"encoding/json"
-	"github.com/kumackey/profile-updater/internal/domain"
 	"io"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/kumackey/profile-updater/internal/domain"
 )
 
 type QiitaAPIClient struct{}
