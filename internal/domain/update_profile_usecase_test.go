@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"gotest.tools/v3/assert"
 )
 
 type profileIOMock struct {
@@ -123,7 +123,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				Return([]RssItem{}, nil)
 
 			err := usecase.Exec(context.Background(), test.input)
-			assert.Equal(t, test.output, err)
+			assert.ErrorIs(t, err, test.output)
 		})
 	}
 }
