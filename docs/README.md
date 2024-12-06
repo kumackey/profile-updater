@@ -32,7 +32,7 @@ jobs:
   profile-updater:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: kumackey/profile-updater@v1
         with:
           qiita_user_id: <ここに自分のQiitaのUser IDを入力してください>
@@ -40,8 +40,7 @@ jobs:
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "action@github.com"
-          git add .
-          git commit -m "profile updated" || true
+          git commit -am "profile updated" || true
           git push origin main
 ```
 

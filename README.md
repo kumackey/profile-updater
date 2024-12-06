@@ -17,14 +17,12 @@ https://github.com/kumackey/profile-updater/blob/main/docs/README.md
 
 ## withのパラメータ
 
-| パラメータ名                | 必須か | 説明                             |
-|-----------------------|-----|--------------------------------|
-| `qiita_user_id`       | NO  | QiitaのユーザID                    |
-| `qiita_max_articles`  | NO  | Qiitaの表示したい最大記事数。デフォルトは5       |
-| `zenn_user_id`        | NO  | ZennのユーザID                     |
-| `zenn_max_articles`   | NO  | Zennの表示したい最大記事数。デフォルトは5        |
-| `connpass_nickname`   | NO  | connpassのユーザ名 ※ 廃止予定           |
-| `connpass_max_events` | NO  | connpassの表示したい最大イベント数。デフォルトは5　※ 廃止予定 |
+| パラメータ名                | 必須か | 説明                                   |
+|-----------------------|-----|--------------------------------------|
+| `qiita_user_id`       | NO  | QiitaのユーザID                          |
+| `qiita_max_articles`  | NO  | Qiitaの表示したい最大記事数。デフォルトは5             |
+| `zenn_user_id`        | NO  | ZennのユーザID                           |
+| `zenn_max_articles`   | NO  | Zennの表示したい最大記事数。デフォルトは5              |
 
 ## qiita
 
@@ -46,17 +44,7 @@ withのパラメータとして`zenn_user_id`を指定してください。 そ�
 
 ## connpass
 
-<B>イベントサーチAPIの無料提供が廃止されるため、2024年5月23日(木)以降にconnpassのサポートを終了します。</B>
-2024年5月23日(木)以降ではconnpass関連の処理はスキップされます。
-
-ref: https://connpass.com/about/api/
-
-withのパラメータとして`connpass_nickname`を指定してください。 その上で、`README.md`内に以下記述を追加してください。
-
-```text:README.md
-<!-- profile updater begin: connpass -->
-<!-- profile updater end: connpass -->
-```
+<B>イベントサーチAPIの無料提供が廃止されるため、2024年5月23日(木)以降にconnpassのサポートを終了しました。</B>
 
 ## 定期更新の仕方(おすすめ)
 

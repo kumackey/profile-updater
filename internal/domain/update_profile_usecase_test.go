@@ -67,27 +67,23 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 	}{
 		"全部の値が入っている": {
 			input: UpdateProfileUsecaseInput{
-				zennUserID:        "kumackey",
-				zennMaxArticles:   5,
-				connpassNickname:  "kumackey",
-				connpassMaxEvents: 5,
-				qiitaUserID:       "kumackey",
-				qiitaMaxArticles:  5,
+				zennUserID:       "kumackey",
+				zennMaxArticles:  5,
+				qiitaUserID:      "kumackey",
+				qiitaMaxArticles: 5,
 				// TODO: RSSのテストを追加する
 			},
 			retProfileIOScan: &Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->" +
-					"<!-- profile updater begin: connpass --><!-- profile updater end: connpass -->" +
 					"<!-- profile updater begin: qiita --><!-- profile updater end: qiita -->",
 			},
 			output: nil,
 		},
 		"Zennだけの値が入っている": {
 			input: UpdateProfileUsecaseInput{
-				zennUserID:        "kumackey",
-				zennMaxArticles:   5,
-				connpassMaxEvents: 5,
-				qiitaMaxArticles:  5,
+				zennUserID:       "kumackey",
+				zennMaxArticles:  5,
+				qiitaMaxArticles: 5,
 			},
 			retProfileIOScan: &Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->",
@@ -96,10 +92,9 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 		},
 		"Zennの値が入っているのに、プロフィールに該当する置換箇所がない": {
 			input: UpdateProfileUsecaseInput{
-				zennUserID:        "kumackey",
-				zennMaxArticles:   5,
-				connpassMaxEvents: 5,
-				qiitaMaxArticles:  5,
+				zennUserID:       "kumackey",
+				zennMaxArticles:  5,
+				qiitaMaxArticles: 5,
 			},
 			retProfileIOScan: &Profile{},
 			output:           ErrReplaceStatementNotFound,
