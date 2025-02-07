@@ -16,6 +16,20 @@
 <!-- profile updater end: qiita -->
 ```
 
+## GitHub Actionsの権限設定
+
+GitHub Actionsがリポジトリに変更をプッシュするために、以下のいずれかの方法で書き込み権限を付与する必要があります：
+
+1. ワークフローファイルでの設定（推奨）
+
+下記の「GitHub Actionsの設定」で書かれるワークフローファイルに`permissions`セクションを追加しています。
+この方法が最も安全で管理しやすい方法です。
+
+2. リポジトリ設定での設定
+
+または、リポジトリの Settings > Actions > General > Workflow permissions で「Read and write permissions」を選択することもできます。
+ただし、この方法はリポジトリ全体の設定を変更することになります。
+
 ## GitHub Actionsの設定
 
 `.github/workflows/`に以下のようなYAMLファイルを置きます。ファイル名は何でも良いですが、ここでは`profile-updater.yml`としておきます。
@@ -31,6 +45,8 @@ on:
 jobs:
   profile-updater:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: kumackey/profile-updater@v1
