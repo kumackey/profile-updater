@@ -2,7 +2,7 @@
 
 ZennやQiitaの記事、connpassのイベントのリストを取得し、Githubのプロフィールを更新します。
 
-# 成果例
+# 結果例
 
 ![](./res/readme_output.png)
 ![](./res/readme_result.png)
