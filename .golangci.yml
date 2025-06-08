@@ -30,8 +30,6 @@ linters:
     - nakedret
     - noctx
     - nolintlint
-    - staticcheck
-    - stylecheck
     - typecheck
     - unconvert
     - unparam
