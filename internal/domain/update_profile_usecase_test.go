@@ -120,7 +120,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 			rssClientMock.On("FetchItems", mock.Anything, mock.Anything).
 				Return([]RssItem{}, nil)
 
-			err := usecase.Exec(context.Background(), test.input)
+			err := usecase.Exec(context.Background(), &test.input)
 			assert.ErrorIs(t, err, test.output)
 		})
 	}

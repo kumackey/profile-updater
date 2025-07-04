@@ -28,7 +28,7 @@ type UpdateProfileUsecaseInput struct {
 	QiitaSortByLgtm   bool
 }
 
-func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUsecaseInput) error {
+func (u UpdateProfileUsecase) Exec(ctx context.Context, input *UpdateProfileUsecaseInput) error {
 	profile, err := u.profileIO.Scan()
 	if err != nil {
 		return err
@@ -57,7 +57,7 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 	}
 
 	if input.connpassNickname != "" {
-		profile, err = func(input UpdateProfileUsecaseInput, profile *Profile) (*Profile, error) {
+		profile, err = func(input *UpdateProfileUsecaseInput, profile *Profile) (*Profile, error) {
 			const readmeURL = "https://github.com/kumackey/profile-updater?tab=readme-ov-file#connpass"
 
 			if time.Now().After(time.Date(2024, 5, 23, 0, 0, 0, 0, time.UTC)) {
@@ -139,8 +139,8 @@ func NewUpdateProfileUseCaseInput(
 	qiitaUserID string,
 	qiitaMaxArticles int,
 	qiitaSortByLgtm bool,
-) UpdateProfileUsecaseInput {
-	return UpdateProfileUsecaseInput{
+) *UpdateProfileUsecaseInput {
+	return &UpdateProfileUsecaseInput{
 		zennUserID:        zennUserID,
 		zennMaxArticles:   zennMaxArticles,
 		connpassNickname:  connpassNickname,
