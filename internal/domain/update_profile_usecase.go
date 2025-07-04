@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"sort"
 	"time"
 )
 
@@ -24,6 +25,7 @@ type UpdateProfileUsecaseInput struct {
 	connpassMaxEvents int
 	qiitaUserID       string
 	qiitaMaxArticles  int
+	QiitaSortByLgtm   bool
 }
 
 func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUsecaseInput) error {
@@ -43,6 +45,10 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 		if err != nil {
 			return fmt.Errorf("failed to fetch zenn items: %w", err)
 		}
+
+		sort.Slice(items, func(i, j int) bool {
+			return items[i].SortOrder() > items[j].SortOrder()
+		})
 
 		profile, err = profile.ReplaceZenn(ToMarkdown(items, input.zennMaxArticles))
 		if err != nil {
@@ -69,6 +75,10 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 				return profile, err
 			}
 
+			sort.Slice(connpassList, func(i, j int) bool {
+				return connpassList[i].SortOrder() > connpassList[j].SortOrder()
+			})
+
 			replaceValue := ToMarkdown(connpassList, input.connpassMaxEvents)
 
 			return profile.ReplaceConnpass(replaceValue)
@@ -82,6 +92,16 @@ func (u UpdateProfileUsecase) Exec(ctx context.Context, input UpdateProfileUseca
 		qiitaArticleList, err := u.qiitaClient.FetchArticleList(ctx, input.qiitaUserID, input.qiitaMaxArticles)
 		if err != nil {
 			return err
+		}
+
+		if input.QiitaSortByLgtm {
+			sort.Slice(qiitaArticleList, func(i, j int) bool {
+				return qiitaArticleList[i].LGTMs() > qiitaArticleList[j].LGTMs()
+			})
+		} else {
+			sort.Slice(qiitaArticleList, func(i, j int) bool {
+				return qiitaArticleList[i].SortOrder() > qiitaArticleList[j].SortOrder()
+			})
 		}
 
 		replaceValue := ToMarkdown(qiitaArticleList, input.qiitaMaxArticles)
@@ -118,6 +138,7 @@ func NewUpdateProfileUseCaseInput(
 	connpassMaxEvents int,
 	qiitaUserID string,
 	qiitaMaxArticles int,
+	qiitaSortByLgtm bool,
 ) UpdateProfileUsecaseInput {
 	return UpdateProfileUsecaseInput{
 		zennUserID:        zennUserID,
@@ -126,5 +147,6 @@ func NewUpdateProfileUseCaseInput(
 		connpassMaxEvents: connpassMaxEvents,
 		qiitaUserID:       qiitaUserID,
 		qiitaMaxArticles:  qiitaMaxArticles,
+		QiitaSortByLgtm:   qiitaSortByLgtm,
 	}
 }

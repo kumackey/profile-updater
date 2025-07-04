@@ -1,6 +1,7 @@
 package domain
 
 import (
+	"sort"
 	"testing"
 	"time"
 
@@ -33,6 +34,9 @@ func TestToMarkdown_Connpass(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
+			sort.Slice(test.events, func(i, j int) bool {
+				return test.events[i].SortOrder() > test.events[j].SortOrder()
+			})
 			markdown := ToMarkdown(test.events, test.limit)
 			assert.Equal(t, test.output, markdown)
 		})
@@ -64,6 +68,9 @@ func TestToMarkdown_Qiita(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
+			sort.Slice(test.input, func(i, j int) bool {
+				return test.input[i].SortOrder() > test.input[j].SortOrder()
+			})
 			markdown := ToMarkdown(test.input, 5)
 			assert.Equal(t, test.output, markdown)
 		})
@@ -95,6 +102,9 @@ func TestToMarkdown_Zenn(t *testing.T) {
 
 	for name, test := range tests {
 		t.Run(name, func(t *testing.T) {
+			sort.Slice(test.input, func(i, j int) bool {
+				return test.input[i].SortOrder() > test.input[j].SortOrder()
+			})
 			markdown := ToMarkdown(test.input, 5)
 			assert.Equal(t, test.output, markdown)
 		})

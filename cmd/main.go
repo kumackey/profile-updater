@@ -32,6 +32,7 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	qiitaSortByLgtm := getBool(os.Getenv("INPUT_QIITA_SORT_BY_LGTM"))
 
 	if zennUserID == "" && connpassNickname == "" && qiitaUserID == "" {
 		fmt.Println("zenn user id or connpass nickname required")
@@ -51,6 +52,7 @@ func main() {
 		connpassMaxEvents,
 		qiitaUserID,
 		qiitaMaxArticles,
+		qiitaSortByLgtm,
 	)
 
 	err = u.Exec(context.Background(), input)
@@ -73,4 +75,11 @@ func getMaxLines(v string) (int, error) {
 	}
 
 	return maxArticles, nil
+}
+
+func getBool(v string) bool {
+	if v == "true" || v == "1" {
+		return true
+	}
+	return false
 }

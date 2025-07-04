@@ -71,6 +71,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				zennMaxArticles:  5,
 				qiitaUserID:      "kumackey",
 				qiitaMaxArticles: 5,
+				QiitaSortByLgtm:  false,
 				// TODO: RSSのテストを追加する
 			},
 			retProfileIOScan: &Profile{
@@ -84,6 +85,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				zennUserID:       "kumackey",
 				zennMaxArticles:  5,
 				qiitaMaxArticles: 5,
+				QiitaSortByLgtm:  false,
 			},
 			retProfileIOScan: &Profile{
 				Content: "<!-- profile updater begin: zenn --><!-- profile updater end: zenn -->",
@@ -95,6 +97,7 @@ func TestUpdateProfileUsecase_Exec(t *testing.T) {
 				zennUserID:       "kumackey",
 				zennMaxArticles:  5,
 				qiitaMaxArticles: 5,
+				QiitaSortByLgtm:  false,
 			},
 			retProfileIOScan: &Profile{},
 			output:           ErrReplaceStatementNotFound,
