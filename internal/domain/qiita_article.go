@@ -12,6 +12,10 @@ type QiitaArticle struct {
 	publishedAt time.Time
 }
 
+func (q QiitaArticle) LGTMs() int {
+	return q.lgtms
+}
+
 func (q QiitaArticle) ToMarkdown() string {
 	publishedAt := convertTimeToString(q.publishedAt)
 

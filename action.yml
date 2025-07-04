@@ -20,6 +20,9 @@ inputs:
   qiita_max_articles:
     description: 'Qiita max article count, default 5'
     required: false
+  qiita_sort_by_lgtm:
+    description: 'Qiitaの記事をLGTM数でソートする場合はtrue、作成日でソートする場合はfalse（デフォルト: false）'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
