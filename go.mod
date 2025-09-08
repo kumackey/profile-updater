@@ -3,7 +3,7 @@ module github.com/kumackey/profile-updater
 go 1.23
 
 require (
-	github.com/stretchr/testify v1.11.0
+	github.com/stretchr/testify v1.11.1
 	github.com/tenntenn/connpass v0.1.0
 	gotest.tools/v3 v3.5.2
 )
