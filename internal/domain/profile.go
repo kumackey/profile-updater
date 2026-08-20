@@ -50,7 +50,8 @@ func (p *Profile) replace(value, replaceBegin, replaceEnd string) (*Profile, err
 		return nil, ErrReplaceStatementNotFound
 	}
 
-	replaced := re.ReplaceAllString(newLineReplaced, replaceBegin+value+replaceEnd)
+	// 外部由来の文字列に含まれる`$1`などがキャプチャグループとして展開されないよう、リテラルとして置換する
+	replaced := re.ReplaceAllLiteralString(newLineReplaced, replaceBegin+value+replaceEnd)
 	p.Content = strings.ReplaceAll(replaced, newLineCode, "\n")
 
 	return p, nil

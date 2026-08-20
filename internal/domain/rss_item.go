@@ -16,7 +16,7 @@ type RssItem struct {
 func (r RssItem) ToMarkdown() string {
 	publishedAt := convertTimeToString(r.publishedAt)
 
-	return "- " + publishedAt + " [" + r.title + "](" + r.link + ")"
+	return "- " + publishedAt + " " + toMarkdownLink(r.title, r.link)
 }
 
 func (r RssItem) SortOrder() int64 {

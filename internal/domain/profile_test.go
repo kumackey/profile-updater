@@ -97,3 +97,16 @@ func TestProfile_ReplaceQiita(t *testing.T) {
 		})
 	}
 }
+
+func TestProfile_Replace_DollarSignIsNotExpanded(t *testing.T) {
+	profile := &Profile{Content: regexZennBegin + "\n置き換えられる前です\n" + regexZennEnd}
+
+	replaced, err := profile.ReplaceZenn("\n- Feb 1 [Goの$1と${GOPATH}入門](https://example.com/1)\n")
+
+	assert.Nil(t, err)
+	assert.Equal(
+		t,
+		regexZennBegin+"\n- Feb 1 [Goの$1と${GOPATH}入門](https://example.com/1)\n"+regexZennEnd,
+		replaced.Content,
+	)
+}

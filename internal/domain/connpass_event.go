@@ -11,7 +11,7 @@ type ConnpassEvent struct {
 }
 
 func (z ConnpassEvent) ToMarkdown() string {
-	return "- " + convertTimeToString(z.startedAt) + " " + "[" + z.title + "](" + z.link + ")"
+	return "- " + convertTimeToString(z.startedAt) + " " + toMarkdownLink(z.title, z.link)
 }
 
 func (z ConnpassEvent) SortOrder() int64 {
