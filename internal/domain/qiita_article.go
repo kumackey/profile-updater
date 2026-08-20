@@ -25,7 +25,7 @@ func (q QiitaArticle) ToMarkdown() string {
 		text += ", **" + strconv.Itoa(q.lgtms) + " LGTM**"
 	}
 
-	text += " [" + q.title + "](" + q.link + ")"
+	text += " " + toMarkdownLink(q.title, q.link)
 
 	return text
 }
